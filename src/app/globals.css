@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fffaf8;
+  --foreground: #3f312b;
+  --rose: #c99691;
+  --rose-dark: #9e6f69;
+  --cream: #f7eee9;
+  --sand: #ead8cf;
+  --ink: #2f2521;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: #e9c7c2;
+  color: var(--ink);
+}
+
+.font-display {
+  font-family: var(--font-serif), Georgia, Cambria, "Times New Roman", serif;
+}
+
+.section-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.luxury-card {
+  border: 1px solid rgba(201, 150, 145, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 70px rgba(102, 72, 65, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.soft-gradient {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(227, 191, 184, 0.4), transparent 30%),
+    radial-gradient(circle at 90% 10%, rgba(255, 239, 231, 0.95), transparent 34%),
+    linear-gradient(135deg, #fffaf8 0%, #f8eee9 52%, #fff 100%);
+}
+
+.image-shine::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 45%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 700ms ease;
+}
+
+.image-shine:hover::after {
+  transform: translateX(120%);
+}
