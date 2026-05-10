@@ -6,11 +6,11 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Tentang", href: "#about" },
-  { label: "Produk", href: "#products" },
-  { label: "Kategori", href: "#categories" },
-  { label: "Testimoni", href: "#testimonials" },
-  { label: "Kontak", href: "#contact" },
+  { label: "About", href: "#about" },
+  { label: "Collection", href: "#products" },
+  { label: "Categories", href: "#categories" },
+  { label: "Reviews", href: "#testimonials" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const products = [
@@ -36,22 +36,22 @@ const products = [
 const categories = [
   {
     title: "Abaya",
-    desc: "Potongan longgar, jatuh lembut, dan anggun untuk keseharian.",
+    desc: "Soft flowing silhouettes for effortless everyday elegance.",
     image: "/gallery/A-peach.jpg",
   },
   {
-    title: "Gamis Syar’i",
-    desc: "Siluet feminin dengan detail premium untuk acara spesial.",
+    title: "Modest Gown",
+    desc: "Refined feminine lines crafted for graceful occasions.",
     image: "/gallery/B-white.jpg",
   },
   {
     title: "Khimar",
-    desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
+    desc: "Polished coverage designed for serene, effortless styling.",
     image: "/gallery/C-peach.jpg",
   },
   {
-    title: "Best Seller",
-    desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
+    title: "Best Sellers",
+    desc: "Beloved pieces in calm, enduring tones.",
     image: "/gallery/D-maroon.jpg",
   },
 ];
@@ -59,15 +59,15 @@ const categories = [
 const testimonials = [
   {
     name: "Nadia A.",
-    text: "Bahannya adem dan jatuhnya cantik. Rasanya mewah tapi tetap nyaman untuk aktivitas harian.",
+    text: "The fabric feels airy with a beautiful drape—luxurious, yet easy for daily wear.",
   },
   {
     name: "Hana P.",
-    text: "Packaging rapi, warna persis seperti foto, dan modelnya syar’i tanpa terlihat kaku.",
+    text: "The tones are true to the photos, and the modest cut feels refined without being rigid.",
   },
   {
     name: "Salsabila R.",
-    text: "Suka banget dengan detail jahitannya. KHZ Boutique terasa premium dan elegan.",
+    text: "The finishing details feel considered. KHZ Boutique has such a soft premium presence.",
   },
 ];
 
@@ -76,24 +76,24 @@ const galleryPreview = products.slice(0, 8);
 type FeatureIcon = "crown" | "returns" | "truck" | "shield";
 
 const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
-  { title: "Premium Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
-  { title: "Easy Returns", desc: "Layanan ramah pelanggan", icon: "returns" },
-  { title: "Fast Shipping", desc: "Pengiriman cepat", icon: "truck" },
-  { title: "Secure Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
+  { title: "Crafted Quality", desc: "Selected refined materials", icon: "crown" },
+  { title: "Considered Care", desc: "Warm client assistance", icon: "returns" },
+  { title: "Swift Delivery", desc: "Prepared with attention", icon: "truck" },
+  { title: "Private Order", desc: "Secure WhatsApp service", icon: "shield" },
 ];
 
 const brandHighlights = [
   {
     title: "Elegant Design",
-    desc: "Potongan anggun untuk tampilan feminin modern.",
+    desc: "Graceful cuts for a modern feminine presence.",
   },
   {
     title: "Premium Fabric",
-    desc: "Bahan lembut pilihan yang nyaman dipakai sepanjang hari.",
+    desc: "Soft selected materials made for all-day ease.",
   },
   {
     title: "Timeless Comfort",
-    desc: "Dirancang untuk tetap sopan, nyaman, dan stylish.",
+    desc: "Designed to feel modest, composed, and quietly stylish.",
   },
 ];
 
@@ -252,32 +252,32 @@ export default function Home() {
             className="relative z-10"
           >
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.48em] text-[#b88984]">
-              Muslimah Syar’i Modern
+              Modern Modest Wear
             </p>
             <h1 className="font-display max-w-2xl text-5xl leading-[0.95] text-[#3a2b26] sm:text-6xl lg:text-7xl">
               Elegance in{" "}
               <span className="text-[#c99691]">Every Detail</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-9 text-[#6f5b53]">
-              KHZ Boutique menghadirkan abaya, gamis, dan khimar syar’i dengan
-              sentuhan lembut, anggun, dan premium untuk setiap momen.
+              Refined abayas, gowns, and khimar pieces shaped with soft
+              elegance for every graceful moment.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="#products"
                 className="rounded-full bg-[#c99691] px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-white shadow-xl shadow-[#c99691]/25 transition hover:-translate-y-1 hover:bg-[#ad7a74]"
               >
-                Lihat Koleksi
+                Explore Collection
               </Link>
               <Link
                 href="#about"
                 className="rounded-full border border-[#d7b5ae] bg-white/60 px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
               >
-                Tentang Brand
+                Discover the Brand
               </Link>
             </div>
             <div className="mt-12 grid max-w-xl grid-cols-3 gap-4 text-center">
-              {["Premium Quality", "Timeless Design", "Exclusive Collection"].map(
+              {["Refined Quality", "Timeless Design", "Signature Edit"].map(
                 (item) => (
                   <div
                     key={item}
@@ -341,7 +341,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="Kampanye editorial modest fashion KHZ Boutique bernuansa dusty pink"
+                alt="KHZ Boutique dusty pink modest fashion editorial campaign"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"
@@ -360,21 +360,20 @@ export default function Home() {
               variants={fadeUp}
               className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]"
             >
-              About The Brand
+              About the Maison
             </motion.p>
             <motion.h2
               variants={fadeUp}
               className="font-display max-w-2xl text-4xl leading-tight text-[#3a2b26] md:text-6xl"
             >
-              Lovely, elegant, and timeless untuk Muslimah masa kini.
+              Soft elegance for the modern modest wardrobe.
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="mt-7 max-w-2xl text-lg leading-9 text-[#76645d]"
             >
-              KHZ Boutique dirancang untuk wanita yang ingin tampil anggun,
-              sopan, dan tetap modern. Setiap koleksi mengutamakan kenyamanan,
-              warna yang tenang, serta potongan syar’i yang mudah dipakai.
+              KHZ Boutique is created for women who seek calm beauty, refined
+              modesty, and effortless modern ease in every piece.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 grid gap-4 sm:grid-cols-3">
               {brandHighlights.map((item) => (
@@ -393,9 +392,9 @@ export default function Home() {
       <section id="products" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Featured Products"
-            title="Koleksi pilihan yang anggun dan mudah dipadukan"
-            description="Semua produk menggunakan gambar koleksi dari folder Gallery, tanpa hero banner."
+            eyebrow="Signature Collection"
+            title="Graceful pieces curated for quiet sophistication"
+            description="A refined edit of modest wardrobe essentials in soft, timeless tones."
           />
           <motion.div
             variants={stagger}
@@ -414,14 +413,14 @@ export default function Home() {
                 <div className="image-shine relative aspect-[4/5] overflow-hidden">
                   <Image
                     src={product.image}
-                    alt={`${product.name} warna ${product.color}`}
+                    alt={`${product.name} in ${product.color}`}
                     width={1600}
                     height={1600}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
                     <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
-                      Detail via WhatsApp
+                      Inquire via WhatsApp
                     </span>
                   </div>
                 </div>
@@ -442,9 +441,9 @@ export default function Home() {
       <section id="categories" className="soft-gradient py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Product Categories"
-            title="Pilihan kategori untuk setiap kebutuhan"
-            description="Dari daily wear sampai acara spesial, setiap kategori dibuat dengan karakter yang lembut dan premium."
+            eyebrow="Curated Categories"
+            title="Refined edits for every graceful occasion"
+            description="From everyday poise to special moments, each category is shaped with softness and polish."
           />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {categories.map((category) => (
@@ -479,9 +478,9 @@ export default function Home() {
       <section id="testimonials" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Testimonials"
-            title="Cerita pelanggan tentang KHZ Boutique"
-            description="Nuansa lembut, nyaman, dan elegan menjadi alasan pelanggan memilih KHZ Boutique."
+            eyebrow="Client Notes"
+            title="Words from women who wear KHZ"
+            description="Soft comfort, graceful lines, and quiet elegance define their KHZ experience."
           />
           <div className="grid gap-6 md:grid-cols-3">
             {testimonials.map((testimonial) => (
@@ -511,7 +510,7 @@ export default function Home() {
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]">
-                Instagram Preview
+                Editorial Preview
               </p>
               <h2 className="font-display text-4xl text-[#3a2b26] md:text-5xl">
                 Follow the soft elegance
@@ -562,22 +561,22 @@ export default function Home() {
             <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#f0d4cc]/20 blur-3xl" />
             <div className="relative mx-auto max-w-3xl">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#f2c9c2]">
-                Contact Us
+                Get in Touch
               </p>
               <h2 className="font-display text-4xl leading-tight md:text-6xl">
-                Siap tampil anggun dengan koleksi KHZ Boutique?
+                Begin your refined modest wardrobe.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Konsultasikan warna, ukuran, dan ketersediaan produk langsung
-                melalui WhatsApp. Kami siap membantu memilihkan koleksi terbaik.
+                Consult sizing, tones, and availability through WhatsApp for a
+                calm, personal boutique experience.
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://wa.me/6281234567890?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+                  href="https://wa.me/6281234567890?text=Hello%20KHZ%20Boutique%2C%20I%20would%20like%20to%20ask%20about%20the%20collection."
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
-                  Chat WhatsApp
+                  Start a Conversation
                 </Link>
                 <Link
                   href="https://www.instagram.com/khzboutique"
@@ -603,15 +602,15 @@ export default function Home() {
             </p>
           </div>
           <p className="max-w-xl text-sm leading-7 text-[#7c6961]">
-            Modern modest fashion untuk Muslimah yang menyukai keanggunan,
-            kenyamanan, dan detail premium.
+            Modern modest fashion for women who love elegance, comfort, and
+            refined details.
           </p>
           <p className="text-sm text-[#9a837a]">© 2026 KHZ Boutique</p>
         </div>
       </footer>
 
       <Link
-        href="https://wa.me/6281234567890?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+        href="https://wa.me/6281234567890?text=Hello%20KHZ%20Boutique%2C%20I%20would%20like%20to%20ask%20about%20the%20collection."
         target="_blank"
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
