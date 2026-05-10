@@ -360,7 +360,7 @@ export default function Home() {
               variants={fadeUp}
               className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]"
             >
-              About the Maison
+              About Us
             </motion.p>
             <motion.h2
               variants={fadeUp}
