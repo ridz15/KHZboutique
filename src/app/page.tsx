@@ -36,22 +36,22 @@ const products = [
 const categories = [
   {
     title: "Abaya",
-    desc: "Soft flowing silhouettes for effortless everyday elegance.",
+    desc: "Potongan longgar, jatuh lembut, dan anggun untuk keseharian.",
     image: "/gallery/A-peach.jpg",
   },
   {
     title: "Modest Gown",
-    desc: "Refined feminine lines crafted for graceful occasions.",
+    desc: "Siluet feminin dengan detail premium untuk acara spesial.",
     image: "/gallery/B-white.jpg",
   },
   {
     title: "Khimar",
-    desc: "Polished coverage designed for serene, effortless styling.",
+    desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
     image: "/gallery/C-peach.jpg",
   },
   {
     title: "Best Sellers",
-    desc: "Beloved pieces in calm, enduring tones.",
+    desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
     image: "/gallery/D-maroon.jpg",
   },
 ];
@@ -59,15 +59,15 @@ const categories = [
 const testimonials = [
   {
     name: "Nadia A.",
-    text: "The fabric feels airy with a beautiful drape—luxurious, yet easy for daily wear.",
+    text: "Bahannya adem dan jatuhnya cantik. Rasanya mewah tapi tetap nyaman untuk aktivitas harian.",
   },
   {
     name: "Hana P.",
-    text: "The tones are true to the photos, and the modest cut feels refined without being rigid.",
+    text: "Packaging rapi, warna persis seperti foto, dan modelnya syar’i tanpa terlihat kaku.",
   },
   {
     name: "Salsabila R.",
-    text: "The finishing details feel considered. KHZ Boutique has such a soft premium presence.",
+    text: "Suka banget dengan detail jahitannya. KHZ Boutique terasa premium dan elegan.",
   },
 ];
 
@@ -76,24 +76,24 @@ const galleryPreview = products.slice(0, 8);
 type FeatureIcon = "crown" | "returns" | "truck" | "shield";
 
 const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
-  { title: "Crafted Quality", desc: "Selected refined materials", icon: "crown" },
-  { title: "Considered Care", desc: "Warm client assistance", icon: "returns" },
-  { title: "Swift Delivery", desc: "Prepared with attention", icon: "truck" },
-  { title: "Private Order", desc: "Secure WhatsApp service", icon: "shield" },
+  { title: "Crafted Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
+  { title: "Considered Care", desc: "Layanan ramah pelanggan", icon: "returns" },
+  { title: "Swift Delivery", desc: "Pengiriman cepat", icon: "truck" },
+  { title: "Private Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
 ];
 
 const brandHighlights = [
   {
     title: "Elegant Design",
-    desc: "Graceful cuts for a modern feminine presence.",
+    desc: "Potongan anggun untuk tampilan feminin modern.",
   },
   {
     title: "Premium Fabric",
-    desc: "Soft selected materials made for all-day ease.",
+    desc: "Bahan lembut pilihan yang nyaman dipakai sepanjang hari.",
   },
   {
     title: "Timeless Comfort",
-    desc: "Designed to feel modest, composed, and quietly stylish.",
+    desc: "Dirancang untuk tetap sopan, nyaman, dan stylish.",
   },
 ];
 
@@ -259,8 +259,8 @@ export default function Home() {
               <span className="text-[#c99691]">Every Detail</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-9 text-[#6f5b53]">
-              Refined abayas, gowns, and khimar pieces shaped with soft
-              elegance for every graceful moment.
+              KHZ Boutique menghadirkan abaya, gamis, dan khimar syar’i dengan
+              sentuhan lembut, anggun, dan premium untuk setiap momen.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -372,8 +372,9 @@ export default function Home() {
               variants={fadeUp}
               className="mt-7 max-w-2xl text-lg leading-9 text-[#76645d]"
             >
-              KHZ Boutique is created for women who seek calm beauty, refined
-              modesty, and effortless modern ease in every piece.
+              KHZ Boutique dirancang untuk wanita yang ingin tampil anggun,
+              sopan, dan tetap modern. Setiap koleksi mengutamakan kenyamanan,
+              warna yang tenang, serta potongan syar’i yang mudah dipakai.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 grid gap-4 sm:grid-cols-3">
               {brandHighlights.map((item) => (
@@ -394,7 +395,7 @@ export default function Home() {
           <SectionTitle
             eyebrow="Signature Collection"
             title="Graceful pieces curated for quiet sophistication"
-            description="A refined edit of modest wardrobe essentials in soft, timeless tones."
+            description="Semua produk menggunakan gambar koleksi dari folder Gallery, tanpa hero banner."
           />
           <motion.div
             variants={stagger}
@@ -413,7 +414,7 @@ export default function Home() {
                 <div className="image-shine relative aspect-[4/5] overflow-hidden">
                   <Image
                     src={product.image}
-                    alt={`${product.name} in ${product.color}`}
+                    alt={`${product.name} warna ${product.color}`}
                     width={1600}
                     height={1600}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -443,7 +444,7 @@ export default function Home() {
           <SectionTitle
             eyebrow="Curated Categories"
             title="Refined edits for every graceful occasion"
-            description="From everyday poise to special moments, each category is shaped with softness and polish."
+            description="Dari daily wear sampai acara spesial, setiap kategori dibuat dengan karakter yang lembut dan premium."
           />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {categories.map((category) => (
@@ -480,7 +481,7 @@ export default function Home() {
           <SectionTitle
             eyebrow="Client Notes"
             title="Words from women who wear KHZ"
-            description="Soft comfort, graceful lines, and quiet elegance define their KHZ experience."
+            description="Nuansa lembut, nyaman, dan elegan menjadi alasan pelanggan memilih KHZ Boutique."
           />
           <div className="grid gap-6 md:grid-cols-3">
             {testimonials.map((testimonial) => (
@@ -567,12 +568,12 @@ export default function Home() {
                 Begin your refined modest wardrobe.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Consult sizing, tones, and availability through WhatsApp for a
-                calm, personal boutique experience.
+                Konsultasikan warna, ukuran, dan ketersediaan produk langsung
+                melalui WhatsApp. Kami siap membantu memilihkan koleksi terbaik.
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://wa.me/6281234567890?text=Hello%20KHZ%20Boutique%2C%20I%20would%20like%20to%20ask%20about%20the%20collection."
+                  href="https://wa.me/6281234567890?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
@@ -602,15 +603,15 @@ export default function Home() {
             </p>
           </div>
           <p className="max-w-xl text-sm leading-7 text-[#7c6961]">
-            Modern modest fashion for women who love elegance, comfort, and
-            refined details.
+            Modern modest fashion untuk Muslimah yang menyukai keanggunan,
+            kenyamanan, dan detail premium.
           </p>
           <p className="text-sm text-[#9a837a]">© 2026 KHZ Boutique</p>
         </div>
       </footer>
 
       <Link
-        href="https://wa.me/6281234567890?text=Hello%20KHZ%20Boutique%2C%20I%20would%20like%20to%20ask%20about%20the%20collection."
+        href="https://wa.me/6281234567890?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
         target="_blank"
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
