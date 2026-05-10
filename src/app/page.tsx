@@ -82,6 +82,21 @@ const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
   { title: "Secure Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
 ];
 
+const brandHighlights = [
+  {
+    title: "Elegant Design",
+    desc: "Potongan anggun untuk tampilan feminin modern.",
+  },
+  {
+    title: "Premium Fabric",
+    desc: "Bahan lembut pilihan yang nyaman dipakai sepanjang hari.",
+  },
+  {
+    title: "Timeless Comfort",
+    desc: "Dirancang untuk tetap sopan, nyaman, dan stylish.",
+  },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show: { opacity: 1, y: 0 },
@@ -362,16 +377,14 @@ export default function Home() {
               warna yang tenang, serta potongan syar’i yang mudah dipakai.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 grid gap-4 sm:grid-cols-3">
-              {["Design Eksklusif", "Bahan Premium", "Jahitan Rapih"].map(
-                (item) => (
-                  <div key={item} className="luxury-card rounded-3xl p-5">
-                    <p className="font-semibold text-[#493832]">{item}</p>
-                    <p className="mt-2 text-sm leading-6 text-[#8a756d]">
-                      Detail lembut dengan nuansa feminin dan premium.
-                    </p>
-                  </div>
-                ),
-              )}
+              {brandHighlights.map((item) => (
+                <div key={item.title} className="luxury-card rounded-3xl p-5">
+                  <p className="font-semibold text-[#493832]">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#8a756d]">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
