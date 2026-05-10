@@ -480,7 +480,7 @@ export default function Home() {
         <div className="section-shell">
           <SectionTitle
             eyebrow="Client Notes"
-            title="Words from women who wear KHZ"
+            title="Loved by Our Customers"
             description="Nuansa lembut, nyaman, dan elegan menjadi alasan pelanggan memilih KHZ Boutique."
           />
           <div className="grid gap-6 md:grid-cols-3">
