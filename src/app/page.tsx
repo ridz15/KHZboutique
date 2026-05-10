@@ -73,10 +73,72 @@ const testimonials = [
 
 const galleryPreview = products.slice(0, 8);
 
+type FeatureIcon = "crown" | "returns" | "truck" | "shield";
+
+const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
+  { title: "Premium Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
+  { title: "Easy Returns", desc: "Layanan ramah pelanggan", icon: "returns" },
+  { title: "Fast Shipping", desc: "Pengiriman cepat", icon: "truck" },
+  { title: "Secure Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show: { opacity: 1, y: 0 },
 };
+
+function FeatureIconMark({ icon }: { icon: FeatureIcon }) {
+  const baseProps = {
+    className:
+      "mx-auto mb-4 h-8 w-8 text-[#6f4e37] opacity-70 transition duration-300 group-hover:opacity-100",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.35,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  if (icon === "crown") {
+    return (
+      <svg {...baseProps}>
+        <path d="m3.5 8.5 4.25 3.25L12 5l4.25 6.75L20.5 8.5l-1.5 9H5l-1.5-9Z" />
+        <path d="M6 19h12" />
+      </svg>
+    );
+  }
+
+  if (icon === "returns") {
+    return (
+      <svg {...baseProps}>
+        <path d="M6.5 8.5 12 5l5.5 3.5V15L12 18.5 6.5 15V8.5Z" />
+        <path d="m6.5 8.5 5.5 3.5 5.5-3.5" />
+        <path d="M12 12v6.5" />
+        <path d="M8.5 4.5H6a3 3 0 0 0-3 3v1.25" />
+        <path d="m5.5 6.75-2.5 2-2.5-2" />
+      </svg>
+    );
+  }
+
+  if (icon === "truck") {
+    return (
+      <svg {...baseProps}>
+        <path d="M3.5 7.5h11v8h-11z" />
+        <path d="M14.5 10h3l3 3v2.5h-6" />
+        <path d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+        <path d="M17.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...baseProps}>
+      <path d="M12 3.5 19 6v5.25c0 4.2-2.7 7.35-7 9.25-4.3-1.9-7-5.05-7-9.25V6l7-2.5Z" />
+      <path d="m8.75 12 2.15 2.15L15.5 9.5" />
+    </svg>
+  );
+}
 
 const stagger = {
   hidden: {},
@@ -236,13 +298,12 @@ export default function Home() {
 
       <section className="border-y border-[#ead8cf] bg-white/75 py-6">
         <div className="section-shell grid gap-4 text-center sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ["Premium Quality", "Bahan pilihan terbaik"],
-            ["Easy Returns", "Layanan ramah pelanggan"],
-            ["Fast Shipping", "Pengiriman cepat"],
-            ["Secure Order", "Pesan aman via WhatsApp"],
-          ].map(([title, desc]) => (
-            <div key={title} className="rounded-3xl px-4 py-5">
+          {featureItems.map(({ title, desc, icon }) => (
+            <div
+              key={title}
+              className="group rounded-3xl px-4 py-5 transition duration-300 hover:-translate-y-1"
+            >
+              <FeatureIconMark icon={icon} />
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#493832]">
                 {title}
               </p>
