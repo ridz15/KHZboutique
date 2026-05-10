@@ -227,7 +227,7 @@ export default function Home() {
                 width={1884}
                 height={835}
                 priority
-                className="h-[360px] w-full object-cover object-center md:h-[520px]"
+                className="h-[360px] w-full object-cover object-[84%_center] md:h-[520px]"
               />
             </div>
           </motion.div>
