@@ -3,6 +3,8 @@
 :root {
   --background: #fffaf8;
   --foreground: #3f312b;
+  --font-sans: "Inter";
+  --font-serif: "Cormorant Garamond";
   --rose: #c99691;
   --rose-dark: #9e6f69;
   --cream: #f7eee9;

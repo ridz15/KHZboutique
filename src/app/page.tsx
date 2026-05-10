@@ -153,10 +153,21 @@ export default function Home() {
             WhatsApp
           </Link>
         </div>
+        <div className="section-shell flex gap-5 overflow-x-auto pb-3 lg:hidden">
+          {navItems.map((item) => (
+            <Link
+              key={`mobile-${item.href}`}
+              href={item.href}
+              className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6b5750] transition hover:text-[#b88984]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
       </nav>
 
-      <section id="home" className="soft-gradient relative min-h-screen pt-20">
-        <div className="section-shell grid min-h-[calc(100vh-80px)] items-center gap-12 py-16 lg:grid-cols-[0.88fr_1.12fr]">
+      <section id="home" className="soft-gradient relative min-h-screen pt-32 lg:pt-20">
+        <div className="section-shell grid min-h-[calc(100vh-128px)] items-center gap-12 py-16 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[0.88fr_1.12fr]">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -529,7 +540,7 @@ export default function Home() {
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
       >
-        ☎
+        WA
       </Link>
     </main>
   );
