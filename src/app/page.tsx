@@ -227,9 +227,9 @@ export default function Home() {
                 width={1884}
                 height={835}
                 priority
-                className="h-[360px] w-full object-cover object-[88%_center] md:h-[520px]"
+                className="h-[360px] w-full object-cover object-[84%_center] md:h-[520px]"
               />
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-[42%] bg-gradient-to-r from-[#fbf0ec] via-[#fbf0ec]/95 to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-[28%] bg-gradient-to-r from-[#fbf0ec] via-[#fbf0ec]/80 to-transparent" />
             </div>
           </motion.div>
         </div>
