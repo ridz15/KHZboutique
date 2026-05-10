@@ -323,13 +323,15 @@ export default function Home() {
             className="relative"
           >
             <div className="absolute -bottom-7 -right-7 h-44 w-44 rounded-full bg-[#efd2cd] blur-3xl" />
-            <Image
-              src="/gallery/reference/reference.jpg"
-              alt="Referensi desain KHZ Boutique"
-              width={1024}
-              height={1536}
-              className="relative h-[560px] w-full rounded-[2rem] object-cover object-top shadow-2xl shadow-[#9e6f69]/10"
-            />
+            <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
+              <Image
+                src="/gallery/A-peach.jpg"
+                alt="Kampanye editorial modest fashion KHZ Boutique bernuansa dusty pink"
+                width={1600}
+                height={1600}
+                className="h-[560px] w-full object-cover object-[42%_center]"
+              />
+            </div>
           </motion.div>
 
           <motion.div
