@@ -6,11 +6,11 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Tentang", href: "#about" },
-  { label: "Produk", href: "#products" },
-  { label: "Kategori", href: "#categories" },
-  { label: "Testimoni", href: "#testimonials" },
-  { label: "Kontak", href: "#contact" },
+  { label: "About", href: "#about" },
+  { label: "Collection", href: "#products" },
+  { label: "Categories", href: "#categories" },
+  { label: "Reviews", href: "#testimonials" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const products = [
@@ -40,7 +40,7 @@ const categories = [
     image: "/gallery/A-peach.jpg",
   },
   {
-    title: "Gamis Syar’i",
+    title: "Modest Gown",
     desc: "Siluet feminin dengan detail premium untuk acara spesial.",
     image: "/gallery/B-white.jpg",
   },
@@ -50,7 +50,7 @@ const categories = [
     image: "/gallery/C-peach.jpg",
   },
   {
-    title: "Best Seller",
+    title: "Best Sellers",
     desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
     image: "/gallery/D-maroon.jpg",
   },
@@ -76,10 +76,10 @@ const galleryPreview = products.slice(0, 8);
 type FeatureIcon = "crown" | "returns" | "truck" | "shield";
 
 const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
-  { title: "Premium Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
-  { title: "Easy Returns", desc: "Layanan ramah pelanggan", icon: "returns" },
-  { title: "Fast Shipping", desc: "Pengiriman cepat", icon: "truck" },
-  { title: "Secure Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
+  { title: "Crafted Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
+  { title: "Considered Care", desc: "Layanan ramah pelanggan", icon: "returns" },
+  { title: "Swift Delivery", desc: "Pengiriman cepat", icon: "truck" },
+  { title: "Private Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
 ];
 
 const brandHighlights = [
@@ -252,7 +252,7 @@ export default function Home() {
             className="relative z-10"
           >
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.48em] text-[#b88984]">
-              Muslimah Syar’i Modern
+              Modern Modest Wear
             </p>
             <h1 className="font-display max-w-2xl text-5xl leading-[0.95] text-[#3a2b26] sm:text-6xl lg:text-7xl">
               Elegance in{" "}
@@ -267,17 +267,17 @@ export default function Home() {
                 href="#products"
                 className="rounded-full bg-[#c99691] px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-white shadow-xl shadow-[#c99691]/25 transition hover:-translate-y-1 hover:bg-[#ad7a74]"
               >
-                Lihat Koleksi
+                Explore Collection
               </Link>
               <Link
                 href="#about"
                 className="rounded-full border border-[#d7b5ae] bg-white/60 px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
               >
-                Tentang Brand
+                Discover the Brand
               </Link>
             </div>
             <div className="mt-12 grid max-w-xl grid-cols-3 gap-4 text-center">
-              {["Premium Quality", "Timeless Design", "Exclusive Collection"].map(
+              {["Refined Quality", "Timeless Design", "Signature Edit"].map(
                 (item) => (
                   <div
                     key={item}
@@ -341,7 +341,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="Kampanye editorial modest fashion KHZ Boutique bernuansa dusty pink"
+                alt="KHZ Boutique dusty pink modest fashion editorial campaign"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"
@@ -360,13 +360,13 @@ export default function Home() {
               variants={fadeUp}
               className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]"
             >
-              About The Brand
+              About the Maison
             </motion.p>
             <motion.h2
               variants={fadeUp}
               className="font-display max-w-2xl text-4xl leading-tight text-[#3a2b26] md:text-6xl"
             >
-              Lovely, elegant, and timeless untuk Muslimah masa kini.
+              Soft elegance for the modern modest wardrobe.
             </motion.h2>
             <motion.p
               variants={fadeUp}
@@ -393,8 +393,8 @@ export default function Home() {
       <section id="products" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Featured Products"
-            title="Koleksi pilihan yang anggun dan mudah dipadukan"
+            eyebrow="Signature Collection"
+            title="Graceful pieces curated for quiet sophistication"
             description="Semua produk menggunakan gambar koleksi dari folder Gallery, tanpa hero banner."
           />
           <motion.div
@@ -421,7 +421,7 @@ export default function Home() {
                   />
                   <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
                     <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
-                      Detail via WhatsApp
+                      Inquire via WhatsApp
                     </span>
                   </div>
                 </div>
@@ -442,8 +442,8 @@ export default function Home() {
       <section id="categories" className="soft-gradient py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Product Categories"
-            title="Pilihan kategori untuk setiap kebutuhan"
+            eyebrow="Curated Categories"
+            title="Refined edits for every graceful occasion"
             description="Dari daily wear sampai acara spesial, setiap kategori dibuat dengan karakter yang lembut dan premium."
           />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -479,8 +479,8 @@ export default function Home() {
       <section id="testimonials" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Testimonials"
-            title="Cerita pelanggan tentang KHZ Boutique"
+            eyebrow="Client Notes"
+            title="Loved by Our Customers"
             description="Nuansa lembut, nyaman, dan elegan menjadi alasan pelanggan memilih KHZ Boutique."
           />
           <div className="grid gap-6 md:grid-cols-3">
@@ -511,7 +511,7 @@ export default function Home() {
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]">
-                Instagram Preview
+                Editorial Preview
               </p>
               <h2 className="font-display text-4xl text-[#3a2b26] md:text-5xl">
                 Follow the soft elegance
@@ -562,10 +562,10 @@ export default function Home() {
             <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#f0d4cc]/20 blur-3xl" />
             <div className="relative mx-auto max-w-3xl">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#f2c9c2]">
-                Contact Us
+                Get in Touch
               </p>
               <h2 className="font-display text-4xl leading-tight md:text-6xl">
-                Siap tampil anggun dengan koleksi KHZ Boutique?
+                Begin your refined modest wardrobe.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
                 Konsultasikan warna, ukuran, dan ketersediaan produk langsung
@@ -577,7 +577,7 @@ export default function Home() {
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
-                  Chat WhatsApp
+                  Start a Conversation
                 </Link>
                 <Link
                   href="https://www.instagram.com/khzboutique"
