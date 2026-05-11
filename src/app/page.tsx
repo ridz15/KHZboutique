@@ -44,10 +44,10 @@ const categories = [
     targetProduct: { name: "Wulan Kaftan", color: "Maroon" },
   },
   {
-    title: "Best Sellers",
+    title: "Tunic Set",
     desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
     image: "/gallery/D-maroon.jpg",
-    targetProduct: { name: "Zahra Gamis", color: "Blue" },
+    targetProduct: { name: "Zahra Tunic Set", color: "Blue" },
   },
 ];
 

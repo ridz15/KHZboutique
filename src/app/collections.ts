@@ -35,7 +35,7 @@ export const productCollections: { name: string; variants: Omit<Product, "name">
     ],
   },
   {
-    name: "Zahra Gamis",
+    name: "Zahra Tunic Set",
     variants: [
       { color: "Blue", image: "/gallery/D-blue.jpg", price: "Rp 240.000" },
       { color: "Brown", image: "/gallery/D-brown.jpg", price: "Rp 240.000" },
