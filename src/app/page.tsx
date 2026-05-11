@@ -40,12 +40,12 @@ const categories = [
     image: "/gallery/A-peach.jpg",
   },
   {
-    title: "Modest Gown",
+    title: "Modest Wear",
     desc: "Siluet feminin dengan detail premium untuk acara spesial.",
     image: "/gallery/B-white.jpg",
   },
   {
-    title: "Khimar",
+    title: "Kaftan",
     desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
     image: "/gallery/C-peach.jpg",
   },
@@ -259,7 +259,7 @@ export default function Home() {
               <span className="text-[#c99691]">Every Detail</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-9 text-[#6f5b53]">
-              KHZ Boutique menghadirkan abaya, gamis, dan khimar syar’i dengan
+              KHZ Boutique menghadirkan abaya, kaftan, dan modest wear dengan
               sentuhan lembut, anggun, dan premium untuk setiap momen.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
