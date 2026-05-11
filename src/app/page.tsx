@@ -18,10 +18,10 @@ const products = [
   { name: "Aisyah Abaya", color: "Brown", image: "/gallery/A-brown.jpg" },
   { name: "Aisyah Abaya", color: "Grey", image: "/gallery/A-grey.jpg" },
   { name: "Aisyah Abaya", color: "Maroon", image: "/gallery/A-maroon.jpg" },
-  { name: "Aisyah Abaya", color: "Peach", image: "/gallery/A-peach.jpg" },
-  { name: "Luna Gamis", color: "Black", image: "/gallery/B-black.jpg" },
-  { name: "Luna Gamis", color: "Brown", image: "/gallery/B-brown.jpg" },
-  { name: "Luna Gamis", color: "White", image: "/gallery/B-white.jpg" },
+  { name: "Wulan Kaftan", color: "Maroon", image: "/gallery/kaftan-wulan-maroon.jpg" },
+  { name: "Wulan Kaftan", color: "Purple", image: "/gallery/kaftan-wulan-purple.jpg" },
+  { name: "Wulan Kaftan", color: "White", image: "/gallery/kaftan-wulan-white.jpg" },
+  { name: "Wulan Kaftan", color: "Blue", image: "/gallery/kaftan-wulan-blue.jpg" },
   { name: "Nayla Khimar", color: "Black", image: "/gallery/C-black.jpg" },
   { name: "Nayla Khimar", color: "Blue", image: "/gallery/C-blue.jpg" },
   { name: "Nayla Khimar", color: "Brown", image: "/gallery/C-brown.jpg" },
@@ -47,7 +47,7 @@ const categories = [
   {
     title: "Kaftan",
     desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
-    image: "/gallery/C-peach.jpg",
+    image: "/gallery/kaftan-wulan-maroon.jpg",
   },
   {
     title: "Best Sellers",
@@ -573,7 +573,7 @@ export default function Home() {
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://wa.me/6282112995760?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+                  href="https://wa.me/62895352750251?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
