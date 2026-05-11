@@ -22,28 +22,43 @@ const products = productCollections.flatMap((collection) =>
   })),
 );
 
+// To change where a category card scrolls, update targetProduct to match
+// a product name and color from src/app/collections.ts.
 const categories = [
   {
     title: "Abaya",
     desc: "Potongan longgar, jatuh lembut, dan anggun untuk keseharian.",
     image: "/gallery/A-peach.jpg",
+    targetProduct: { name: "Aisyah Abaya", color: "Black" },
   },
   {
     title: "Modest Wear",
     desc: "Siluet feminin dengan detail premium untuk acara spesial.",
     image: "/gallery/B-white.jpg",
+    targetProduct: { name: "Nayla Khimar", color: "Black" },
   },
   {
     title: "Kaftan",
     desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
     image: "/gallery/kaftan-wulan-maroon.jpg",
+    targetProduct: { name: "Wulan Kaftan", color: "Maroon" },
   },
   {
     title: "Best Sellers",
     desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
     image: "/gallery/D-maroon.jpg",
+    targetProduct: { name: "Zahra Dress", color: "Maroon" },
   },
 ];
+
+const collectionDisplayLimit = 8;
+const categoryTargetKeys = new Set(
+  categories.map((category) => getProductKey(category.targetProduct)),
+);
+const visibleProducts = products.filter(
+  (product, index) =>
+    index < collectionDisplayLimit || categoryTargetKeys.has(getProductKey(product)),
+);
 
 const testimonials = [
   {
@@ -112,6 +127,21 @@ function getProductWhatsAppHref(product: Product) {
   const message = `Assalamualaikum KHZ Boutique, saya ingin tanya ${product.name} warna ${product.color}.`;
 
   return `https://wa.me/62895352750251?text=${encodeURIComponent(message)}`;
+}
+
+function getProductKey(product: Pick<Product, "name" | "color">) {
+  return `${product.name}::${product.color}`;
+}
+
+function toSlug(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function getProductAnchor(product: Pick<Product, "name" | "color">) {
+  return `collection-${toSlug(product.name)}-${toSlug(product.color)}`;
 }
 
 const fadeUp = {
@@ -434,12 +464,13 @@ export default function Home() {
             viewport={{ once: true, margin: "-80px" }}
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
-            {products.slice(0, 8).map((product) => (
+            {visibleProducts.map((product) => (
               <motion.article
+                id={getProductAnchor(product)}
                 key={`${product.name}-${product.color}`}
                 variants={fadeUp}
                 transition={{ duration: 0.65, ease: "easeOut" }}
-                className="group overflow-hidden rounded-[1.75rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15"
+                className="group scroll-mt-28 overflow-hidden rounded-[1.75rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
               >
                 <Link
                   href={getProductWhatsAppHref(product)}
@@ -563,20 +594,29 @@ export default function Home() {
                 transition={{ duration: 0.65, ease: "easeOut" }}
                 className="group relative min-h-[420px] overflow-hidden rounded-[2rem]"
               >
-                <Image
-                  src={category.image}
-                  alt={category.title}
-                  width={1600}
-                  height={1600}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2f2521]/70 via-[#2f2521]/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                  <h3 className="font-display text-4xl">{category.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/86">
-                    {category.desc}
-                  </p>
-                </div>
+                <a
+                  href={`#${getProductAnchor(category.targetProduct)}`}
+                  aria-label={`Lihat koleksi ${category.title}`}
+                  className="block h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#c99691]/45"
+                >
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    width={1600}
+                    height={1600}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2f2521]/70 via-[#2f2521]/10 to-transparent transition duration-500 group-hover:from-[#2f2521]/78" />
+                  <div className="absolute inset-x-0 bottom-0 p-7 text-white">
+                    <span className="mb-3 inline-flex rounded-full border border-white/30 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white/85 opacity-0 transition duration-500 group-hover:opacity-100">
+                      View Collection
+                    </span>
+                    <h3 className="font-display text-4xl">{category.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/86">
+                      {category.desc}
+                    </p>
+                  </div>
+                </a>
               </motion.article>
             ))}
           </div>
