@@ -155,6 +155,19 @@ function FeatureIconMark({ icon }: { icon: FeatureIcon }) {
   );
 }
 
+function WhatsAppLogo() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 32 32"
+      className="h-8 w-8"
+      fill="currentColor"
+    >
+      <path d="M16.02 4C9.4 4 4.02 9.38 4.02 16c0 2.12.56 4.19 1.61 6.02L4 28l6.13-1.6A11.95 11.95 0 0 0 16.02 28c6.62 0 12-5.38 12-12s-5.38-12-12-12Zm0 21.85c-1.86 0-3.68-.52-5.26-1.49l-.38-.23-3.64.95.97-3.55-.25-.4A9.82 9.82 0 1 1 16.02 25.85Zm5.38-7.36c-.29-.15-1.73-.85-1.99-.95-.27-.1-.46-.15-.66.15-.19.29-.76.95-.93 1.14-.17.2-.34.22-.63.08-.29-.15-1.23-.45-2.35-1.44-.87-.77-1.45-1.73-1.62-2.02-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.37-.02-.51-.08-.15-.66-1.59-.9-2.18-.24-.57-.48-.49-.66-.5h-.56c-.19 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.43s1.05 2.82 1.19 3.02c.15.19 2.06 3.15 4.99 4.41.7.3 1.24.48 1.67.61.7.22 1.33.19 1.84.12.56-.08 1.73-.71 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.27-.19-.56-.34Z" />
+    </svg>
+  );
+}
+
 const stagger = {
   hidden: {},
   show: {
@@ -573,6 +586,13 @@ export default function Home() {
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
+                  href="https://shopee.co.id/khzboutique"
+                  target="_blank"
+                  className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
+                >
+                  Shopee
+                </Link>
+                <Link
                   href="https://wa.me/62895352750251?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
@@ -616,7 +636,7 @@ export default function Home() {
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
       >
-        WA
+        <WhatsAppLogo />
       </Link>
     </main>
   );
