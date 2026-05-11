@@ -35,7 +35,7 @@ const categories = [
     title: "Modest Wear",
     desc: "Siluet feminin dengan detail premium untuk acara spesial.",
     image: "/gallery/B-white.jpg",
-    targetProduct: { name: "Nayla Khimar", color: "Black" },
+    targetProduct: { name: "Nayla Gamis", color: "Black" },
   },
   {
     title: "Kaftan",
@@ -47,11 +47,11 @@ const categories = [
     title: "Best Sellers",
     desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
     image: "/gallery/D-maroon.jpg",
-    targetProduct: { name: "Zahra Dress", color: "Maroon" },
+    targetProduct: { name: "Zahra Gamis", color: "Blue" },
   },
 ];
 
-const collectionDisplayLimit = 8;
+const collectionDisplayLimit = 16;
 const categoryTargetKeys = new Set(
   categories.map((category) => getProductKey(category.targetProduct)),
 );
