@@ -455,9 +455,12 @@ export default function Home() {
                       height={1600}
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
+                    <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/85 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
                       <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
                         Inquire via WhatsApp
+                      </span>
+                      <span className="mt-1 block font-display text-2xl text-[#3a2b26]">
+                        {product.price}
                       </span>
                     </div>
                   </div>
@@ -467,6 +470,9 @@ export default function Home() {
                     </h3>
                     <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[#b88984]">
                       {product.color}
+                    </p>
+                    <p className="mt-4 inline-flex rounded-full border border-[#ead8cf] bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#6f4e37]">
+                      {product.price}
                     </p>
                   </div>
                 </Link>
