@@ -77,7 +77,7 @@ type FeatureIcon = "crown" | "returns" | "truck" | "shield";
 
 const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
   { title: "Crafted Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
-  { title: "Considered Care", desc: "Layanan ramah pelanggan", icon: "returns" },
+  { title: "Easy Returns", desc: "Layanan ramah pelanggan", icon: "returns" },
   { title: "Swift Delivery", desc: "Pengiriman cepat", icon: "truck" },
   { title: "Private Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
 ];
