@@ -568,7 +568,7 @@ export default function Home() {
                 Begin your refined modest wardrobe
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Alamat : Metro 2, Lantai Dasar, Blok B, No 126, Tanah abang, Jakarta pusat, Indonesia
+                Alamat : Metro 2, Lantai dasar, Blok B, No 126, Tanah abang, Jakarta pusat, Indonesia
           
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
