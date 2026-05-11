@@ -3,10 +3,17 @@ import "./globals.css";
 
 const siteUrl = "https://khzboutique.com";
 const brandName = "KHZ Boutique";
-const title = "KHZ Boutique | Abaya, Kaftan & Modest Wear Muslimah";
+const title = "KHZ Boutique | Abaya Premium, Kaftan & Modest Wear Muslimah";
 const description =
-  "KHZ Boutique menghadirkan abaya, kaftan, gamis, dan modest wear Muslimah dengan desain elegan, bahan nyaman, dan nuansa premium yang timeless.";
+  "KHZ Boutique menghadirkan abaya premium, kaftan muslimah, gamis premium, dan tunik set muslimah dengan nuansa soft luxury yang elegan dan timeless.";
 const previewImage = "/gallery/hero-banner.jpg";
+const address = {
+  streetAddress: "Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang",
+  addressLocality: "Jakarta Pusat",
+  addressRegion: "DKI Jakarta",
+  addressCountry: "ID",
+};
+const products = ["Abaya", "Kaftan", "Gamis", "Tunik Set"];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -18,15 +25,16 @@ export const metadata: Metadata = {
   description,
   keywords: [
     "KHZ Boutique",
-    "KHZ Boutique Indonesia",
-    "abaya muslimah",
+    "abaya premium",
     "kaftan muslimah",
     "gamis premium",
+    "tunik set muslimah",
     "modest wear Muslimah",
+    "fashion Muslimah modern",
     "boutique muslimah",
-    "fashion muslimah modern Indonesia",
+    "Tanah Abang Jakarta",
   ],
-  authors: [{ name: brandName }],
+  authors: [{ name: brandName, url: siteUrl }],
   creator: brandName,
   publisher: brandName,
   category: "fashion",
@@ -37,9 +45,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,
@@ -55,7 +65,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1884,
         height: 835,
-        alt: "KHZ Boutique premium modest wear Muslimah collection",
+        alt: "KHZ Boutique abaya premium dan modest wear Muslimah elegan",
       },
     ],
     locale: "id_ID",
@@ -65,7 +75,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: [previewImage],
+    images: [
+      {
+        url: previewImage,
+        alt: "KHZ Boutique abaya premium dan modest wear Muslimah elegan",
+      },
+    ],
   },
   alternates: {
     canonical: siteUrl,
@@ -76,7 +91,7 @@ const brandStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["Organization", "ClothingStore"],
+      "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: brandName,
       alternateName: "KHZ",
@@ -84,18 +99,6 @@ const brandStructuredData = {
       logo: `${siteUrl}/icon.png`,
       image: `${siteUrl}${previewImage}`,
       description,
-      telephone: "+62 895-3527-50251",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang",
-        addressLocality: "Jakarta Pusat",
-        addressRegion: "DKI Jakarta",
-        addressCountry: "ID",
-      },
-      areaServed: {
-        "@type": "Country",
-        name: "Indonesia",
-      },
       sameAs: [
         "https://www.instagram.com/khzboutique",
         "https://shopee.co.id/khzboutique",
@@ -103,6 +106,36 @@ const brandStructuredData = {
       brand: {
         "@type": "Brand",
         name: brandName,
+      },
+    },
+    {
+      "@type": "ClothingStore",
+      "@id": `${siteUrl}/#local-business`,
+      name: brandName,
+      url: siteUrl,
+      image: `${siteUrl}${previewImage}`,
+      description:
+        "Boutique muslimah di Tanah Abang Jakarta untuk abaya premium, kaftan muslimah, gamis premium, dan tunik set muslimah bernuansa elegan.",
+      telephone: "+62 895-3527-50251",
+      priceRange: "Rp185.000-Rp260.000",
+      address: {
+        "@type": "PostalAddress",
+        ...address,
+      },
+      areaServed: {
+        "@type": "Country",
+        name: "Indonesia",
+      },
+      parentOrganization: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "KHZ Boutique Signature Collection",
+        itemListElement: products.map((productName) => ({
+          "@type": "OfferCatalog",
+          name: productName,
+        })),
       },
     },
     {
@@ -115,6 +148,18 @@ const brandStructuredData = {
         "@id": `${siteUrl}/#organization`,
       },
       inLanguage: "id-ID",
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${siteUrl}/#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteUrl,
+        },
+      ],
     },
   ],
 };
