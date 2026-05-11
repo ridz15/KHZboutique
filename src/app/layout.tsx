@@ -1,29 +1,34 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-const siteUrl = "https://khzboutique.com";
-const brandName = "KHZ Boutique";
-const title = "KHZ Boutique | Abaya, Kaftan & Modest Wear Muslimah";
-const description =
-  "KHZ Boutique menghadirkan abaya, kaftan, gamis, dan modest wear Muslimah dengan desain elegan, bahan nyaman, dan nuansa premium yang timeless.";
-const previewImage = "/gallery/hero-banner.jpg";
+import {
+  brandName,
+  previewImage,
+  shopeeUrl,
+  siteDescription,
+  siteTitle,
+  instagramUrl,
+  siteUrl,
+} from "./brand";
+import { brandStructuredData } from "./seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: brandName,
   title: {
-    default: title,
+    default: siteTitle,
     template: `%s | ${brandName}`,
   },
-  description,
+  description: siteDescription,
   keywords: [
     "KHZ Boutique",
-    "KHZ Boutique Indonesia",
-    "abaya muslimah",
-    "kaftan muslimah",
-    "gamis premium",
+    "KHZ Boutique Tanah Abang",
+    "KHZ Boutique Jakarta",
+    "abaya muslimah premium",
+    "kaftan muslimah premium",
+    "gamis muslimah premium",
     "modest wear Muslimah",
-    "boutique muslimah",
+    "tunic set muslimah",
+    "boutique muslimah Jakarta",
     "fashion muslimah modern Indonesia",
   ],
   authors: [{ name: brandName }],
@@ -33,6 +38,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",
+  },
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
   },
   robots: {
     index: true,
@@ -46,8 +56,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title,
-    description,
+    title: siteTitle,
+    description: siteDescription,
     url: siteUrl,
     siteName: brandName,
     images: [
@@ -55,7 +65,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1884,
         height: 835,
-        alt: "KHZ Boutique premium modest wear Muslimah collection",
+        alt: "KHZ Boutique koleksi abaya kaftan gamis Muslimah premium",
       },
     ],
     locale: "id_ID",
@@ -63,60 +73,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title,
-    description,
+    title: siteTitle,
+    description: siteDescription,
     images: [previewImage],
   },
   alternates: {
     canonical: siteUrl,
+    languages: {
+      "id-ID": siteUrl,
+    },
   },
-};
-
-const brandStructuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": ["Organization", "ClothingStore"],
-      "@id": `${siteUrl}/#organization`,
-      name: brandName,
-      alternateName: "KHZ",
-      url: siteUrl,
-      logo: `${siteUrl}/icon.png`,
-      image: `${siteUrl}${previewImage}`,
-      description,
-      telephone: "+62 895-3527-50251",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang",
-        addressLocality: "Jakarta Pusat",
-        addressRegion: "DKI Jakarta",
-        addressCountry: "ID",
-      },
-      areaServed: {
-        "@type": "Country",
-        name: "Indonesia",
-      },
-      sameAs: [
-        "https://www.instagram.com/khzboutique",
-        "https://shopee.co.id/khzboutique",
-      ],
-      brand: {
-        "@type": "Brand",
-        name: brandName,
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: brandName,
-      description,
-      publisher: {
-        "@id": `${siteUrl}/#organization`,
-      },
-      inLanguage: "id-ID",
-    },
-  ],
+  other: {
+    "instagram:profile": instagramUrl,
+    "product:retailer_item_id": brandName,
+    "marketplace:shopee": shopeeUrl,
+  },
 };
 
 export default function RootLayout({

@@ -3,7 +3,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { productCollections, type Product } from "./collections";
+import { type Product } from "./collections";
+import {
+  allProducts,
+  instagramUrl,
+  shopeeUrl,
+  storeAddress,
+  whatsappUrl,
+} from "./brand";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -15,12 +22,7 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const products = productCollections.flatMap((collection) =>
-  collection.variants.map((variant) => ({
-    name: collection.name,
-    ...variant,
-  })),
-);
+const products = allProducts;
 
 // To change where a category card scrolls, update targetProduct to match
 // a product name and color from src/app/collections.ts.
@@ -126,7 +128,7 @@ const sizeGuideItems = [
 function getProductWhatsAppHref(product: Product) {
   const message = `Assalamualaikum KHZ Boutique, saya ingin tanya ${product.name} warna ${product.color}.`;
 
-  return `https://wa.me/62895352750251?text=${encodeURIComponent(message)}`;
+  return `${whatsappUrl}?text=${encodeURIComponent(message)}`;
 }
 
 function getProductKey(product: Pick<Product, "name" | "color">) {
@@ -315,12 +317,13 @@ export default function Home() {
               Modern Modest Wear
             </p>
             <h1 className="font-display max-w-2xl text-5xl leading-[0.95] text-[#3a2b26] sm:text-6xl lg:text-7xl">
-              Elegance in{" "}
-              <span className="text-[#c99691]">Every Detail</span>
+              Lovely, elegant, and timeless for modern{" "}
+              <span className="text-[#c99691]">Muslimah.</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-9 text-[#6f5b53]">
-              KHZ Boutique menghadirkan abaya, kaftan, dan modest wear dengan
-              sentuhan lembut, anggun, dan premium untuk setiap momen.
+              KHZ Boutique menghadirkan koleksi modest wear dengan desain
+              anggun, bahan nyaman, dan nuansa feminin yang timeless untuk
+              setiap momen.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -454,8 +457,8 @@ export default function Home() {
         <div className="section-shell">
           <SectionTitle
             eyebrow="Signature Collection"
-            title="Graceful pieces curated for quiet sophistication"
-            description="Produk Kami"
+            title="Koleksi Abaya, Kaftan, Gamis & Tunic Set Muslimah"
+            description="Pilih koleksi KHZ Boutique dengan harga jelas, warna timeless, dan bahan nyaman untuk daily wear hingga acara spesial."
           />
           <motion.div
             variants={stagger}
@@ -665,7 +668,7 @@ export default function Home() {
               </h2>
             </div>
             <Link
-              href="https://www.instagram.com/khzboutique"
+              href={instagramUrl}
               target="_blank"
               className="w-fit rounded-full border border-[#d7b5ae] px-7 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#7a5b54] transition hover:-translate-y-1 hover:bg-white"
             >
@@ -715,26 +718,27 @@ export default function Home() {
                 Begin your refined modest wardrobe
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Alamat: Metro 2, Lantai dasar, Blok B, No 216, Tanah abang, Jakarta pusat, Indonesia
-          
+                Alamat: {storeAddress.streetAddress}, {storeAddress.addressLocality},{" "}
+                {storeAddress.addressRegion}, Indonesia. Konsultasi koleksi abaya,
+                kaftan, gamis, dan modest wear Muslimah via WhatsApp.
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://shopee.co.id/khzboutique"
+                  href={shopeeUrl}
                   target="_blank"
                   className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
                 >
                   Shopee
                 </Link>
                 <Link
-                  href="https://wa.me/62895352750251?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+                  href={`${whatsappUrl}?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk.`}
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
                   Start a Conversation
                 </Link>
                 <Link
-                  href="https://www.instagram.com/khzboutique"
+                  href={instagramUrl}
                   target="_blank"
                   className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
                 >
@@ -765,7 +769,7 @@ export default function Home() {
       </footer>
 
       <Link
-        href="https://wa.me/6282112995760?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+        href={`${whatsappUrl}?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk.`}
         target="_blank"
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
