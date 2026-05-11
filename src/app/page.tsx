@@ -360,7 +360,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_30px_100px_rgba(91,59,51,0.18)]">
               <Image
                 src="/gallery/hero-banner.jpg"
-                alt="KHZ Boutique hero banner"
+                alt="KHZ Boutique premium modest wear Muslimah collection"
                 width={1884}
                 height={835}
                 priority
@@ -401,7 +401,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="KHZ Boutique dusty pink modest fashion editorial campaign"
+                alt="KHZ Boutique dusty pink abaya Muslimah editorial campaign"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"
@@ -481,7 +481,7 @@ export default function Home() {
                   <div className="image-shine relative aspect-[4/5] overflow-hidden">
                     <Image
                       src={product.image}
-                      alt={`${product.name} warna ${product.color}`}
+                      alt={`${product.name} warna ${product.color} koleksi modest wear KHZ Boutique`}
                       width={1600}
                       height={1600}
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -601,7 +601,7 @@ export default function Home() {
                 >
                   <Image
                     src={category.image}
-                    alt={category.title}
+                    alt={`${category.title} KHZ Boutique modest fashion category`}
                     width={1600}
                     height={1600}
                     className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -684,7 +684,7 @@ export default function Home() {
               >
                 <Image
                   src={item.image}
-                  alt={`Instagram preview ${item.name}`}
+                  alt={`${item.name} warna ${item.color} editorial preview KHZ Boutique`}
                   width={1600}
                   height={1600}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
