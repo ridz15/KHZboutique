@@ -395,7 +395,7 @@ export default function Home() {
           <SectionTitle
             eyebrow="Signature Collection"
             title="Graceful pieces curated for quiet sophistication"
-            description="Semua produk menggunakan gambar koleksi dari folder Gallery, tanpa hero banner."
+            description="Produk Kami"
           />
           <motion.div
             variants={stagger}
@@ -565,11 +565,11 @@ export default function Home() {
                 Get in Touch
               </p>
               <h2 className="font-display text-4xl leading-tight md:text-6xl">
-                Begin your refined modest wardrobe.
+                Begin your refined modest wardrobe
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Konsultasikan warna, ukuran, dan ketersediaan produk langsung
-                melalui WhatsApp. Kami siap membantu memilihkan koleksi terbaik.
+                Alamat : Metro 2, Lantai Dasar, Blok B, No 126, Tanah abang, Jakarta pusat, Indonesia
+          
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
