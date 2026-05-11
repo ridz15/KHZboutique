@@ -144,6 +144,22 @@ function getProductAnchor(product: Pick<Product, "name" | "color">) {
   return `collection-${toSlug(product.name)}-${toSlug(product.color)}`;
 }
 
+function getProductSeoCategory(productName: string) {
+  if (productName.includes("Abaya")) {
+    return "abaya premium";
+  }
+
+  if (productName.includes("Kaftan")) {
+    return "kaftan muslimah";
+  }
+
+  if (productName.includes("Gamis")) {
+    return "gamis premium";
+  }
+
+  return "tunik set muslimah";
+}
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show: { opacity: 1, y: 0 },
@@ -360,7 +376,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_30px_100px_rgba(91,59,51,0.18)]">
               <Image
                 src="/gallery/hero-banner.jpg"
-                alt="KHZ Boutique premium modest wear Muslimah collection"
+                alt="KHZ Boutique abaya premium dan modest wear Muslimah elegan"
                 width={1884}
                 height={835}
                 priority
@@ -401,7 +417,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="KHZ Boutique dusty pink abaya Muslimah editorial campaign"
+                alt="Aisyah Abaya KHZ Boutique dalam nuansa dusty pink untuk modest wear Muslimah"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"
@@ -481,7 +497,7 @@ export default function Home() {
                   <div className="image-shine relative aspect-[4/5] overflow-hidden">
                     <Image
                       src={product.image}
-                      alt={`${product.name} warna ${product.color} koleksi modest wear KHZ Boutique`}
+                      alt={`${product.name} warna ${product.color} koleksi ${getProductSeoCategory(product.name)} KHZ Boutique`}
                       width={1600}
                       height={1600}
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -601,7 +617,7 @@ export default function Home() {
                 >
                   <Image
                     src={category.image}
-                    alt={`${category.title} KHZ Boutique modest fashion category`}
+                    alt={`Koleksi ${category.title} KHZ Boutique untuk fashion Muslimah modern`}
                     width={1600}
                     height={1600}
                     className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -684,7 +700,7 @@ export default function Home() {
               >
                 <Image
                   src={item.image}
-                  alt={`${item.name} warna ${item.color} editorial preview KHZ Boutique`}
+                  alt={`${item.name} warna ${item.color} editorial modest wear Muslimah KHZ Boutique`}
                   width={1600}
                   height={1600}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
@@ -715,8 +731,7 @@ export default function Home() {
                 Begin your refined modest wardrobe
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Alamat: Metro 2, Lantai dasar, Blok B, No 216, Tanah abang, Jakarta pusat, Indonesia
-          
+                Alamat: Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang, Jakarta Pusat, Indonesia
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
@@ -757,8 +772,8 @@ export default function Home() {
             </p>
           </div>
           <p className="max-w-xl text-sm leading-7 text-[#7c6961]">
-            Modern modest fashion untuk Muslimah yang menyukai keanggunan,
-            kenyamanan, dan detail premium.
+            Boutique muslimah untuk abaya premium, kaftan muslimah, gamis premium,
+            dan tunik set muslimah dengan keanggunan yang timeless.
           </p>
           <p className="text-sm text-[#9a837a]">© 2026 KHZ Boutique</p>
         </div>
