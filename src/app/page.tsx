@@ -573,7 +573,7 @@ export default function Home() {
               </p>
               <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://wa.me/6281234567890?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+                  href="https://wa.me/6282112995760?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
                   target="_blank"
                   className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
                 >
