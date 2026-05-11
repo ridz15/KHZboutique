@@ -3,35 +3,24 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { productCollections, type Product } from "./collections";
 
 const navItems = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Collection", href: "#products" },
+  { label: "Order Guide", href: "#order-guide" },
   { label: "Categories", href: "#categories" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
 ];
 
-const products = [
-  { name: "Aisyah Abaya", color: "Black", image: "/gallery/A-black.jpg" },
-  { name: "Aisyah Abaya", color: "Brown", image: "/gallery/A-brown.jpg" },
-  { name: "Aisyah Abaya", color: "Grey", image: "/gallery/A-grey.jpg" },
-  { name: "Aisyah Abaya", color: "Maroon", image: "/gallery/A-maroon.jpg" },
-  { name: "Wulan Kaftan", color: "Maroon", image: "/gallery/kaftan-wulan-maroon.jpg" },
-  { name: "Wulan Kaftan", color: "Purple", image: "/gallery/kaftan-wulan-purple.jpg" },
-  { name: "Wulan Kaftan", color: "White", image: "/gallery/kaftan-wulan-white.jpg" },
-  { name: "Wulan Kaftan", color: "Blue", image: "/gallery/kaftan-wulan-blue.jpg" },
-  { name: "Nayla Khimar", color: "Black", image: "/gallery/C-black.jpg" },
-  { name: "Nayla Khimar", color: "Blue", image: "/gallery/C-blue.jpg" },
-  { name: "Nayla Khimar", color: "Brown", image: "/gallery/C-brown.jpg" },
-  { name: "Nayla Khimar", color: "Peach", image: "/gallery/C-peach.jpg" },
-  { name: "Nayla Khimar", color: "Purple", image: "/gallery/C-purple.jpg" },
-  { name: "Zahra Dress", color: "Blue", image: "/gallery/D-blue.jpg" },
-  { name: "Zahra Dress", color: "Brown", image: "/gallery/D-brown.jpg" },
-  { name: "Zahra Dress", color: "Maroon", image: "/gallery/D-maroon.jpg" },
-  { name: "Zahra Dress", color: "Purple", image: "/gallery/D-purple.jpg" },
-];
+const products = productCollections.flatMap((collection) =>
+  collection.variants.map((variant) => ({
+    name: collection.name,
+    ...variant,
+  })),
+);
 
 const categories = [
   {
@@ -96,6 +85,34 @@ const brandHighlights = [
     desc: "Dirancang untuk tetap sopan, nyaman, dan stylish.",
   },
 ];
+
+const orderSteps = [
+  {
+    title: "Pilih Koleksi",
+    desc: "Klik produk yang kamu sukai untuk langsung bertanya detail warna, stok, dan rekomendasi styling melalui WhatsApp.",
+  },
+  {
+    title: "Konsultasi Detail",
+    desc: "Tim KHZ Boutique akan membantu cek ketersediaan, ukuran, dan pilihan warna agar pesanan terasa lebih personal.",
+  },
+  {
+    title: "Konfirmasi Pesanan",
+    desc: "Setelah detail sesuai, lanjutkan konfirmasi order dan pengiriman dengan proses yang rapi, aman, dan nyaman.",
+  },
+];
+
+const sizeGuideItems = [
+  "All size fit to XXL dengan potongan longgar dan anggun.",
+  "Lebar dada 135 cm dan panjang 140 cm.",
+  "Dilengkapi karet pinggang bagian dalam agar mudah disesuaikan.",
+  "Busui friendly dan nyaman dipakai hingga maksimal BB 85 kg.",
+];
+
+function getProductWhatsAppHref(product: Product) {
+  const message = `Assalamualaikum KHZ Boutique, saya ingin tanya ${product.name} warna ${product.color}.`;
+
+  return `https://wa.me/62895352750251?text=${encodeURIComponent(message)}`;
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -243,12 +260,12 @@ export default function Home() {
             WhatsApp
           </Link>
         </div>
-        <div className="section-shell flex gap-5 overflow-x-auto pb-3 lg:hidden">
+        <div className="section-shell flex gap-4 overflow-x-auto pb-3 lg:hidden">
           {navItems.map((item) => (
             <Link
               key={`mobile-${item.href}`}
               href={item.href}
-              className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6b5750] transition hover:text-[#b88984]"
+              className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6b5750] transition hover:text-[#b88984]"
             >
               {item.label}
             </Link>
@@ -424,31 +441,102 @@ export default function Home() {
                 transition={{ duration: 0.65, ease: "easeOut" }}
                 className="group overflow-hidden rounded-[1.75rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15"
               >
-                <div className="image-shine relative aspect-[4/5] overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={`${product.name} warna ${product.color}`}
-                    width={1600}
-                    height={1600}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
-                    <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
-                      Inquire via WhatsApp
-                    </span>
+                <Link
+                  href={getProductWhatsAppHref(product)}
+                  target="_blank"
+                  aria-label={`Tanya ${product.name} warna ${product.color} via WhatsApp`}
+                  className="block"
+                >
+                  <div className="image-shine relative aspect-[4/5] overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={`${product.name} warna ${product.color}`}
+                      width={1600}
+                      height={1600}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/80 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
+                      <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
+                        Inquire via WhatsApp
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-display text-2xl text-[#3a2b26]">
-                    {product.name}
-                  </h3>
-                  <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[#b88984]">
-                    {product.color}
-                  </p>
-                </div>
+                  <div className="p-5">
+                    <h3 className="font-display text-2xl text-[#3a2b26]">
+                      {product.name}
+                    </h3>
+                    <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[#b88984]">
+                      {product.color}
+                    </p>
+                  </div>
+                </Link>
               </motion.article>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      <section id="order-guide" className="bg-[#fffaf8] py-24">
+        <div className="section-shell">
+          <SectionTitle
+            eyebrow="Order Guide"
+            title="Simple steps for a graceful order"
+            description="Panduan singkat untuk membantu kamu memilih koleksi, memastikan ukuran, dan melanjutkan pemesanan dengan nyaman."
+          />
+          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              className="grid gap-4 md:grid-cols-3"
+            >
+              {orderSteps.map((step, index) => (
+                <motion.div
+                  key={step.title}
+                  variants={fadeUp}
+                  className="luxury-card rounded-[2rem] p-7"
+                >
+                  <span className="text-xs font-semibold uppercase tracking-[0.32em] text-[#c99691]">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mt-5 font-display text-3xl text-[#3a2b26]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-[#76645d]">
+                    {step.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="rounded-[2rem] bg-[#3a2b26] p-8 text-white shadow-2xl shadow-[#7d5f58]/10"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.42em] text-[#f2c9c2]">
+                Size Guide
+              </p>
+              <h3 className="mt-5 font-display text-4xl leading-tight">
+                All size, thoughtfully designed.
+              </h3>
+              <p className="mt-5 text-sm leading-7 text-white/72">
+                Setiap koleksi dibuat dengan ukuran fleksibel dan detail yang
+                nyaman untuk menemani aktivitas harian hingga momen spesial.
+              </p>
+              <ul className="mt-7 space-y-4">
+                {sizeGuideItems.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-7 text-white/82">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f2c9c2]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
         </div>
       </section>
 
