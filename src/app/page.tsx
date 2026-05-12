@@ -733,32 +733,32 @@ export default function Home() {
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
                 Alamat: Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang, Jakarta Pusat, Indonesia
               </p>
-              <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
+              <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-nowrap">
                 <Link
                   href="https://shopee.co.id/khzboutique"
                   target="_blank"
-                  className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Shopee
                 </Link>
                 <Link
                   href="https://wa.me/62895352750251?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
                   target="_blank"
-                  className="rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74]"
+                  className="w-full max-w-[17rem] rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74] sm:w-auto sm:max-w-none"
                 >
-                  Start a Conversation
+                  WhatsApp
                 </Link>
                 <Link
                   href="https://www.instagram.com/khzboutique.id"
                   target="_blank"
-                  className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Instagram
                 </Link>
                 <Link
                   href="https://facebook.com/khzboutique.id/"
                   target="_blank"
-                  className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Facebook
                 </Link>
