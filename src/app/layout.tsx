@@ -7,6 +7,11 @@ const title = "KHZ Boutique | Abaya Premium, Kaftan & Modest Wear Muslimah";
 const description =
   "KHZ Boutique menghadirkan abaya premium, kaftan muslimah, gamis premium, dan tunik set muslimah dengan nuansa soft luxury yang elegan dan timeless.";
 const previewImage = "/gallery/hero-banner.jpg";
+const favicon = "/favicon.ico";
+const icon48 = "/icon-48x48.png";
+const icon96 = "/icon-96x96.png";
+const icon192 = "/icon-192x192.png";
+const icon512 = "/icon-512x512.png";
 const address = {
   streetAddress: "Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang",
   addressLocality: "Jakarta Pusat",
@@ -38,9 +43,19 @@ export const metadata: Metadata = {
   creator: brandName,
   publisher: brandName,
   category: "fashion",
+  manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: favicon },
+      { url: icon48, type: "image/png", sizes: "48x48" },
+      { url: icon96, type: "image/png", sizes: "96x96" },
+      { url: icon192, type: "image/png", sizes: "192x192" },
+      { url: icon512, type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: favicon,
+    apple: [
+      { url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" },
+    ],
   },
   robots: {
     index: true,
@@ -96,7 +111,12 @@ const brandStructuredData = {
       name: brandName,
       alternateName: "KHZ",
       url: siteUrl,
-      logo: `${siteUrl}/icon.png`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}${icon512}`,
+        width: 512,
+        height: 512,
+      },
       image: `${siteUrl}${previewImage}`,
       description,
       sameAs: [
