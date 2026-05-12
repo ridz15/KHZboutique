@@ -749,7 +749,7 @@ export default function Home() {
                   Start a Conversation
                 </Link>
                 <Link
-                  href="https://www.instagram.com/khzboutique"
+                  href="https://www.instagram.com/khzboutique.id"
                   target="_blank"
                   className="rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10"
                 >

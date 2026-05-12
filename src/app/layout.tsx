@@ -100,7 +100,7 @@ const brandStructuredData = {
       image: `${siteUrl}${previewImage}`,
       description,
       sameAs: [
-        "https://www.instagram.com/khzboutique",
+        "https://www.instagram.com/khzboutique.id",
         "https://shopee.co.id/khzboutique",
       ],
       brand: {
