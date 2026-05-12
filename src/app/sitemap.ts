@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const siteUrl = "https://khzboutique.com";
-const lastModified = new Date("2026-05-11");
+const lastModified = new Date("2026-05-12");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

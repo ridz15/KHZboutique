@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 const siteUrl = "https://khzboutique.com";
 const brandName = "KHZ Boutique";
 const description =
-  "Abaya premium, kaftan muslimah, gamis premium, dan modest wear Muslimah elegan dari Tanah Abang Jakarta.";
+  "Brand fashion muslimah Indonesia dari Tanah Abang untuk gamis, abaya, tunic set, dan kaftan dress.";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -14,7 +14,7 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: siteUrl,
     display: "standalone",
     background_color: "#ffffff",
-    theme_color: "#c1123a",
+    theme_color: "#35523f",
     icons: [
       {
         src: "/icon-192x192.png",

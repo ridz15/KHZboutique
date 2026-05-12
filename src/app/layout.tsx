@@ -3,9 +3,9 @@ import "./globals.css";
 
 const siteUrl = "https://khzboutique.com";
 const brandName = "KHZ Boutique";
-const title = "KHZ Boutique | Abaya Premium, Kaftan & Modest Wear Muslimah";
+const title = "KHZ Boutique | Gamis, Abaya, Tunic Set & Kaftan Tanah Abang";
 const description =
-  "KHZ Boutique menghadirkan abaya premium, kaftan muslimah, gamis premium, dan tunik set muslimah dengan nuansa soft luxury yang elegan dan timeless.";
+  "KHZ Boutique adalah brand fashion muslimah Indonesia dari Tanah Abang dengan koleksi gamis, abaya, tunic set, dan kaftan dress harga Rp150.000-300.000.";
 const previewImage = "/gallery/hero-banner.jpg";
 const favicon = "/favicon.ico";
 const icon48 = "/icon-48x48.png";
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
   description,
   keywords: [
     "KHZ Boutique",
-    "abaya premium",
-    "kaftan muslimah",
-    "gamis premium",
-    "tunik set muslimah",
-    "modest wear Muslimah",
-    "fashion Muslimah modern",
-    "boutique muslimah",
+    "gamis muslimah",
+    "abaya muslimah",
+    "kaftan dress",
+    "tunic set muslimah",
+    "fashion muslimah Indonesia",
+    "busana muslimah Tanah Abang",
+    "boutique muslimah Tanah Abang",
     "Tanah Abang Jakarta",
   ],
   authors: [{ name: brandName, url: siteUrl }],
@@ -122,6 +122,7 @@ const brandStructuredData = {
       sameAs: [
         "https://www.instagram.com/khzboutique.id",
         "https://shopee.co.id/khzboutique",
+        "https://facebook.com/khzboutique.id/",
       ],
       brand: {
         "@type": "Brand",
@@ -135,9 +136,9 @@ const brandStructuredData = {
       url: siteUrl,
       image: `${siteUrl}${previewImage}`,
       description:
-        "Boutique muslimah di Tanah Abang Jakarta untuk abaya premium, kaftan muslimah, gamis premium, dan tunik set muslimah bernuansa elegan.",
+        "Boutique muslimah di Tanah Abang Jakarta untuk gamis, abaya, tunic set, dan kaftan dress produksi tangan pertama.",
       telephone: "+62 895-3527-50251",
-      priceRange: "Rp185.000-Rp260.000",
+      priceRange: "Rp150.000-Rp300.000",
       address: {
         "@type": "PostalAddress",
         ...address,

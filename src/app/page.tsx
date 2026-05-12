@@ -5,14 +5,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { productCollections, type Product } from "./collections";
 
+const links = {
+  shopee: "https://shopee.co.id/khzboutique",
+  instagram: "https://www.instagram.com/khzboutique.id",
+  facebook: "https://facebook.com/khzboutique.id/",
+  whatsappNumber: "62895352750251",
+  whatsappDisplay: "0895-3527-50251",
+};
+
+const campaign = {
+  title: "KHZ Boutique Comeback Sale",
+  period: "12-26 Mei 2026",
+  target: "Promo 10 order pertama",
+  description:
+    "Promo terbatas untuk koleksi gamis, abaya, tunic set, dan kaftan dress pilihan. Cek warna favoritmu via WhatsApp atau lanjut checkout melalui Shopee.",
+};
+
 const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Collection", href: "#products" },
-  { label: "Order Guide", href: "#order-guide" },
-  { label: "Categories", href: "#categories" },
-  { label: "Reviews", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Beranda", href: "#home" },
+  { label: "Tentang", href: "#about" },
+  { label: "Produk", href: "#products" },
+  { label: "Cara Order", href: "#order-guide" },
+  { label: "Kategori", href: "#categories" },
+  { label: "Layanan", href: "#testimonials" },
+  { label: "Kontak", href: "#contact" },
 ];
 
 const products = productCollections.flatMap((collection) =>
@@ -22,115 +38,123 @@ const products = productCollections.flatMap((collection) =>
   })),
 );
 
-// To change where a category card scrolls, update targetProduct to match
-// a product name and color from src/app/collections.ts.
+const featuredCollections = productCollections.map((collection) => {
+  const prices = Array.from(new Set(collection.variants.map((variant) => variant.price)));
+
+  return {
+    name: collection.name,
+    hero: collection.variants[0],
+    colors: collection.variants.map((variant) => variant.color),
+    priceLabel: prices.length === 1 ? prices[0] : prices.join(" - "),
+  };
+});
+
 const categories = [
   {
     title: "Abaya",
-    desc: "Potongan longgar, jatuh lembut, dan anggun untuk keseharian.",
+    desc: "Potongan longgar dan anggun untuk acara maupun tampilan harian.",
     image: "/gallery/A-peach.jpg",
     targetProduct: { name: "Aisyah Abaya", color: "Black" },
   },
   {
-    title: "Modest Wear",
-    desc: "Siluet feminin dengan detail premium untuk acara spesial.",
-    image: "/gallery/B-white.jpg",
+    title: "Gamis",
+    desc: "Pilihan praktis untuk tampilan rapi, feminin, dan sopan.",
+    image: "/gallery/C-blue.jpg",
     targetProduct: { name: "Nayla Gamis", color: "Black" },
   },
   {
-    title: "Kaftan",
-    desc: "Nyaman dikenakan, rapi, dan mudah dipadukan.",
+    title: "Kaftan Dress",
+    desc: "Ringan, jatuh cantik, dan mudah dipakai untuk banyak momen.",
     image: "/gallery/kaftan-wulan-maroon.jpg",
     targetProduct: { name: "Wulan Kaftan", color: "Maroon" },
   },
   {
     title: "Tunic Set",
-    desc: "Pilihan favorit pelanggan dalam warna-warna timeless.",
+    desc: "Setelan modest yang nyaman untuk aktivitas harian.",
     image: "/gallery/D-maroon.jpg",
     targetProduct: { name: "Zahra Tunic Set", color: "Blue" },
   },
 ];
 
-const collectionDisplayLimit = 16;
-const categoryTargetKeys = new Set(
-  categories.map((category) => getProductKey(category.targetProduct)),
-);
-const visibleProducts = products.filter(
-  (product, index) =>
-    index < collectionDisplayLimit || categoryTargetKeys.has(getProductKey(product)),
-);
-
-const testimonials = [
+const serviceNotes = [
   {
-    name: "Nadia A.",
-    text: "Bahannya adem dan jatuhnya cantik. Rasanya mewah tapi tetap nyaman untuk aktivitas harian.",
+    title: "Foto Produk Jelas",
+    text: "Kamu bisa melihat warna dan detail produk sebelum memilih model yang paling cocok.",
   },
   {
-    name: "Hana P.",
-    text: "Packaging rapi, warna persis seperti foto, dan modelnya syar’i tanpa terlihat kaku.",
+    title: "Bantuan Pilih Ukuran",
+    text: "Butuh saran ukuran atau warna? Tim KHZ siap membantu melalui WhatsApp.",
   },
   {
-    name: "Salsabila R.",
-    text: "Suka banget dengan detail jahitannya. KHZ Boutique terasa premium dan elegan.",
+    title: "Toko Bisa Dikunjungi",
+    text: "Kamu juga bisa datang langsung ke toko KHZ di Pusat Grosir Metro Tanah Abang 2.",
   },
 ];
 
 const galleryPreview = products.slice(0, 8);
 
-type FeatureIcon = "crown" | "returns" | "truck" | "shield";
+type FeatureIcon = "crown" | "chat" | "truck" | "shield";
 
 const featureItems: { title: string; desc: string; icon: FeatureIcon }[] = [
-  { title: "Crafted Quality", desc: "Bahan pilihan terbaik", icon: "crown" },
-  { title: "Easy Returns", desc: "Layanan ramah pelanggan", icon: "returns" },
-  { title: "Swift Delivery", desc: "Pengiriman cepat", icon: "truck" },
-  { title: "Private Order", desc: "Pesan aman via WhatsApp", icon: "shield" },
+  { title: "Jahitan Rapi", desc: "Produksi tangan pertama", icon: "crown" },
+  { title: "Bantu Pilih", desc: "Konsultasi warna dan ukuran", icon: "chat" },
+  { title: "Siap Kirim", desc: "Order via Shopee atau WhatsApp", icon: "truck" },
+  { title: "Belanja Aman", desc: "Toko fisik di Tanah Abang", icon: "shield" },
 ];
 
 const brandHighlights = [
   {
-    title: "Elegant Design",
-    desc: "Potongan anggun untuk tampilan feminin modern.",
+    title: "10+ Tahun Berjalan",
+    desc: "KHZ Boutique sudah lama melayani pelanggan busana muslimah dari Tanah Abang.",
   },
   {
-    title: "Premium Fabric",
-    desc: "Bahan lembut pilihan yang nyaman dipakai sepanjang hari.",
+    title: "Tangan Pertama",
+    desc: "Produk dibuat langsung dari sumber produksi, sehingga harga tetap bersahabat.",
   },
   {
-    title: "Timeless Comfort",
-    desc: "Dirancang untuk tetap sopan, nyaman, dan stylish.",
+    title: "Gaya Mudah Dipakai",
+    desc: "Koleksi dipilih untuk kebutuhan harian, acara keluarga, pengajian, dan momen rapi lainnya.",
   },
+];
+
+const trustItems = [
+  { value: "10+ tahun", label: "Pengalaman brand fashion muslimah" },
+  { value: "Tangan pertama", label: "Produksi dan harga lebih terkontrol" },
+  { value: "Tanah Abang", label: "Toko fisik di Metro Tanah Abang 2" },
+  { value: "Shopee/WA", label: "Checkout mudah dan konsultasi cepat" },
 ];
 
 const orderSteps = [
   {
-    title: "Pilih Koleksi",
-    desc: "Klik produk yang kamu sukai untuk langsung bertanya detail warna, stok, dan rekomendasi styling melalui WhatsApp.",
+    title: "Pilih Model",
+    desc: "Mulai dari empat koleksi utama: Aisyah Abaya, Wulan Kaftan, Nayla Gamis, dan Zahra Tunic Set.",
   },
   {
-    title: "Konsultasi Detail",
-    desc: "Tim KHZ Boutique akan membantu cek ketersediaan, ukuran, dan pilihan warna agar pesanan terasa lebih personal.",
+    title: "Cek Detail",
+    desc: "Tanya stok warna, ukuran, bahan, dan rekomendasi model melalui WhatsApp KHZ Boutique.",
   },
   {
-    title: "Konfirmasi Pesanan",
-    desc: "Setelah detail sesuai, lanjutkan konfirmasi order dan pengiriman dengan proses yang rapi, aman, dan nyaman.",
+    title: "Lanjut Order",
+    desc: "Checkout lewat Shopee untuk proses marketplace, atau lanjut konfirmasi langsung via WhatsApp.",
   },
 ];
 
 const sizeGuideItems = [
-  "All size fit to XXL dengan potongan longgar dan anggun.",
-  "Lebar dada 135 cm dan panjang 140 cm.",
-  "Dilengkapi karet pinggang bagian dalam agar mudah disesuaikan.",
-  "Busui friendly dan nyaman dipakai hingga maksimal BB 85 kg.",
+  "Cek ukuran dan warna sebelum checkout agar pesanan lebih sesuai.",
+  "Tanyakan foto detail bahan bila ingin memastikan tekstur dan warna real.",
+  "Untuk pembelian lebih dari satu pcs, tanyakan stok warna terlebih dahulu.",
+  "Alamat toko tersedia bila ingin melihat koleksi langsung di Tanah Abang.",
 ];
 
-function getProductWhatsAppHref(product: Product) {
-  const message = `Assalamualaikum KHZ Boutique, saya ingin tanya ${product.name} warna ${product.color}.`;
-
-  return `https://wa.me/62895352750251?text=${encodeURIComponent(message)}`;
+function getWhatsAppHref(message: string) {
+  return `https://wa.me/${links.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-function getProductKey(product: Pick<Product, "name" | "color">) {
-  return `${product.name}::${product.color}`;
+function getProductWhatsAppHref(product: Product | { name: string; color?: string }) {
+  const colorText = product.color ? ` warna ${product.color}` : "";
+  const message = `Assalamualaikum KHZ Boutique, saya ingin tanya ${product.name}${colorText}.`;
+
+  return getWhatsAppHref(message);
 }
 
 function toSlug(value: string) {
@@ -146,18 +170,18 @@ function getProductAnchor(product: Pick<Product, "name" | "color">) {
 
 function getProductSeoCategory(productName: string) {
   if (productName.includes("Abaya")) {
-    return "abaya premium";
+    return "abaya muslimah";
   }
 
   if (productName.includes("Kaftan")) {
-    return "kaftan muslimah";
+    return "kaftan dress muslimah";
   }
 
   if (productName.includes("Gamis")) {
-    return "gamis premium";
+    return "gamis muslimah";
   }
 
-  return "tunik set muslimah";
+  return "tunic set muslimah";
 }
 
 const fadeUp = {
@@ -165,10 +189,19 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 };
 
+const stagger = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
 function FeatureIconMark({ icon }: { icon: FeatureIcon }) {
   const baseProps = {
     className:
-      "mx-auto mb-4 h-8 w-8 text-[#6f4e37] opacity-70 transition duration-300 group-hover:opacity-100",
+      "mx-auto mb-4 h-8 w-8 text-[#35523f] opacity-75 transition duration-300 group-hover:opacity-100",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -187,14 +220,13 @@ function FeatureIconMark({ icon }: { icon: FeatureIcon }) {
     );
   }
 
-  if (icon === "returns") {
+  if (icon === "chat") {
     return (
       <svg {...baseProps}>
-        <path d="M6.5 8.5 12 5l5.5 3.5V15L12 18.5 6.5 15V8.5Z" />
-        <path d="m6.5 8.5 5.5 3.5 5.5-3.5" />
-        <path d="M12 12v6.5" />
-        <path d="M8.5 4.5H6a3 3 0 0 0-3 3v1.25" />
-        <path d="m5.5 6.75-2.5 2-2.5-2" />
+        <path d="M5.5 6.5h9a3 3 0 0 1 3 3v3.25a3 3 0 0 1-3 3H10l-4.5 3v-3a3 3 0 0 1-3-3V9.5a3 3 0 0 1 3-3Z" />
+        <path d="M8 10.25h6" />
+        <path d="M8 13h4" />
+        <path d="M18.5 10.5a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3v2.25l-3.35-2.25H12.5" />
       </svg>
     );
   }
@@ -231,15 +263,6 @@ function WhatsAppLogo() {
   );
 }
 
-const stagger = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
 function SectionTitle({
   eyebrow,
   title,
@@ -258,14 +281,14 @@ function SectionTitle({
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="mx-auto mb-12 max-w-3xl text-center"
     >
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#7a2f36]">
         {eyebrow}
       </p>
-      <h2 className="font-display text-4xl leading-tight text-[#3a2b26] md:text-5xl">
+      <h2 className="font-display text-4xl leading-tight text-[#2f2521] md:text-5xl">
         {title}
       </h2>
       {description ? (
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#76645d]">
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#695b54]">
           {description}
         </p>
       ) : null}
@@ -276,23 +299,23 @@ function SectionTitle({
 export default function Home() {
   return (
     <main className="overflow-hidden">
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/55 backdrop-blur-2xl">
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#ead8cf] bg-white/80 backdrop-blur-2xl">
         <div className="section-shell flex h-20 items-center justify-between">
-          <Link href="#home" className="group">
+          <Link href="#home" className="group" aria-label="KHZ Boutique home">
             <span className="block font-display text-3xl tracking-[0.28em] text-[#513b34]">
               KHZ
             </span>
-            <span className="block text-center text-[10px] uppercase tracking-[0.45em] text-[#b88984]">
+            <span className="block text-center text-[10px] uppercase tracking-[0.42em] text-[#7a2f36]">
               Boutique
             </span>
           </Link>
 
-          <div className="hidden items-center gap-8 lg:flex">
+          <div className="hidden items-center gap-7 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-xs font-medium uppercase tracking-[0.24em] text-[#6b5750] transition hover:text-[#b88984]"
+                className="text-xs font-medium uppercase tracking-[0.2em] text-[#5f514b] transition hover:text-[#7a2f36]"
               >
                 {item.label}
               </Link>
@@ -300,8 +323,9 @@ export default function Home() {
           </div>
 
           <Link
-            href="#contact"
-            className="rounded-full bg-[#c99691] px-5 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-white shadow-lg shadow-[#c99691]/25 transition hover:-translate-y-0.5 hover:bg-[#ad7a74]"
+            href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
+            target="_blank"
+            className="rounded-full bg-[#35523f] px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-[#35523f]/20 transition hover:-translate-y-0.5 hover:bg-[#263d2e]"
           >
             WhatsApp
           </Link>
@@ -311,7 +335,7 @@ export default function Home() {
             <Link
               key={`mobile-${item.href}`}
               href={item.href}
-              className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6b5750] transition hover:text-[#b88984]"
+              className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5f514b] transition hover:text-[#7a2f36]"
             >
               {item.label}
             </Link>
@@ -319,50 +343,50 @@ export default function Home() {
         </div>
       </nav>
 
-      <section id="home" className="soft-gradient relative min-h-screen pt-32 lg:pt-20">
-        <div className="section-shell grid min-h-[calc(100vh-128px)] items-center gap-12 py-16 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[0.88fr_1.12fr]">
+      <section id="home" className="soft-gradient relative pt-32 lg:pt-20">
+        <div className="section-shell grid min-h-[calc(100vh-128px)] items-center gap-12 py-14 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[0.9fr_1.1fr]">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative z-10"
           >
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.48em] text-[#b88984]">
-              Modern Modest Wear
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.34em] text-[#7a2f36]">
+              Brand fashion muslimah Indonesia
             </p>
-            <h1 className="font-display max-w-2xl text-5xl leading-[0.95] text-[#3a2b26] sm:text-6xl lg:text-7xl">
-              Elegance in{" "}
-              <span className="text-[#c99691]">Every Detail</span>
+            <h1 className="font-display max-w-2xl text-5xl leading-[1] text-[#2f2521] sm:text-6xl lg:text-7xl">
+              Busana muslimah tangan pertama dari Tanah Abang.
             </h1>
-            <p className="mt-7 max-w-xl text-lg leading-9 text-[#6f5b53]">
-              KHZ Boutique menghadirkan abaya, kaftan, dan modest wear dengan
-              sentuhan lembut, anggun, dan premium untuk setiap momen.
+            <p className="mt-7 max-w-xl text-lg leading-9 text-[#5f514b]">
+              KHZ Boutique menghadirkan gamis, abaya, tunic set, dan kaftan
+              dress dengan harga bersahabat Rp150.000-300.000 untuk harian,
+              pengajian, dan acara keluarga.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
-                href="#products"
-                className="rounded-full bg-[#c99691] px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-white shadow-xl shadow-[#c99691]/25 transition hover:-translate-y-1 hover:bg-[#ad7a74]"
+                href={links.shopee}
+                target="_blank"
+                className="rounded-full bg-[#35523f] px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-xl shadow-[#35523f]/20 transition hover:-translate-y-1 hover:bg-[#263d2e]"
               >
-                Explore Collection
+                Belanja di Shopee
               </Link>
               <Link
-                href="#about"
-                className="rounded-full border border-[#d7b5ae] bg-white/60 px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.22em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
+                href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin cek stok koleksi terbaru.")}
+                target="_blank"
+                className="rounded-full border border-[#c99691] bg-white/75 px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
               >
-                Discover the Brand
+                Chat WhatsApp
               </Link>
             </div>
-            <div className="mt-12 grid max-w-xl grid-cols-3 gap-4 text-center">
-              {["Refined Quality", "Timeless Design", "Signature Edit"].map(
-                (item) => (
-                  <div
-                    key={item}
-                    className="rounded-3xl border border-[#ead8cf] bg-white/55 p-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#6d5a53]"
-                  >
-                    {item}
-                  </div>
-                ),
-              )}
+            <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 text-center">
+              {["10+ tahun", "Tangan pertama", "Rp150-300 ribuan"].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-[#ead8cf] bg-white/65 p-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5f514b]"
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </motion.div>
 
@@ -372,11 +396,10 @@ export default function Home() {
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.12 }}
             className="relative"
           >
-            <div className="absolute -left-10 top-10 h-56 w-56 rounded-full bg-[#efd2cd] blur-3xl" />
-            <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_30px_100px_rgba(91,59,51,0.18)]">
+            <div className="image-shine relative overflow-hidden rounded-[1.5rem] border border-white/70 shadow-[0_30px_100px_rgba(47,37,33,0.16)]">
               <Image
                 src="/gallery/hero-banner.jpg"
-                alt="KHZ Boutique abaya premium dan modest wear Muslimah elegan"
+                alt="KHZ Boutique gamis abaya tunic set dan kaftan dress Muslimah"
                 width={1884}
                 height={835}
                 priority
@@ -387,18 +410,88 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-[#ead8cf] bg-white/75 py-6">
+      <section className="border-y border-[#ead8cf] bg-white py-7">
+        <div className="section-shell grid gap-4 text-center sm:grid-cols-2 lg:grid-cols-4">
+          {trustItems.map((item) => (
+            <div key={item.value} className="px-4 py-4">
+              <p className="font-display text-3xl text-[#2f2521]">{item.value}</p>
+              <p className="mt-2 text-sm leading-6 text-[#695b54]">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-[#fffaf8] py-16">
+        <div className="section-shell">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="grid overflow-hidden rounded-[1.5rem] bg-[#2f2521] text-white shadow-2xl shadow-[#7d5f58]/10 lg:grid-cols-[1.05fr_0.95fr]"
+          >
+            <div className="p-8 md:p-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#f2c9c2]">
+                {campaign.period}
+              </p>
+              <h2 className="mt-5 font-display text-4xl leading-tight md:text-6xl">
+                {campaign.title}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-white/76">
+                {campaign.description}
+              </p>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  href={links.shopee}
+                  target="_blank"
+                  className="rounded-full bg-white px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#2f2521] transition hover:-translate-y-1 hover:bg-[#f7eee9]"
+                >
+                  Checkout Shopee
+                </Link>
+                <Link
+                  href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin ikut Comeback Sale dan cek stok produk.")}
+                  target="_blank"
+                  className="rounded-full border border-white/35 px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10"
+                >
+                  Tanya Stok
+                </Link>
+              </div>
+            </div>
+            <div className="relative min-h-[320px] bg-[#35523f]">
+              <Image
+                src="/gallery/C-black.jpg"
+                alt="Produk pilihan KHZ Boutique untuk promo 14 hari"
+                width={1600}
+                height={1600}
+                className="absolute inset-0 h-full w-full object-cover opacity-72"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2f2521]/82 via-[#2f2521]/22 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-8">
+                <span className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#7a2f36]">
+                  {campaign.target}
+                </span>
+                <p className="mt-4 max-w-sm text-lg leading-7 text-white">
+                  Pilih model favorit, cek warna yang tersedia, lalu lanjut order
+                  sebelum pilihan warna habis.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="border-y border-[#ead8cf] bg-white/85 py-6">
         <div className="section-shell grid gap-4 text-center sm:grid-cols-2 lg:grid-cols-4">
           {featureItems.map(({ title, desc, icon }) => (
             <div
               key={title}
-              className="group rounded-3xl px-4 py-5 transition duration-300 hover:-translate-y-1"
+              className="group rounded-2xl px-4 py-5 transition duration-300 hover:-translate-y-1"
             >
               <FeatureIconMark icon={icon} />
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#493832]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#493832]">
                 {title}
               </p>
-              <p className="mt-2 text-sm text-[#8a756d]">{desc}</p>
+              <p className="mt-2 text-sm text-[#75665f]">{desc}</p>
             </div>
           ))}
         </div>
@@ -413,11 +506,10 @@ export default function Home() {
             transition={{ duration: 0.75, ease: "easeOut" }}
             className="relative"
           >
-            <div className="absolute -bottom-7 -right-7 h-44 w-44 rounded-full bg-[#efd2cd] blur-3xl" />
-            <div className="image-shine relative overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
+            <div className="image-shine relative overflow-hidden rounded-[1.5rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="Aisyah Abaya KHZ Boutique dalam nuansa dusty pink untuk modest wear Muslimah"
+                alt="Aisyah Abaya KHZ Boutique koleksi abaya Muslimah"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"
@@ -434,29 +526,30 @@ export default function Home() {
           >
             <motion.p
               variants={fadeUp}
-              className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]"
+              className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#7a2f36]"
             >
-              About Us
+              Tentang KHZ
             </motion.p>
             <motion.h2
               variants={fadeUp}
-              className="font-display max-w-2xl text-4xl leading-tight text-[#3a2b26] md:text-6xl"
+              className="font-display max-w-2xl text-4xl leading-tight text-[#2f2521] md:text-6xl"
             >
-              Soft elegance for the modern modest wardrobe.
+              Busana muslimah nyaman untuk tampil rapi tanpa terlihat berlebihan.
             </motion.h2>
             <motion.p
               variants={fadeUp}
-              className="mt-7 max-w-2xl text-lg leading-9 text-[#76645d]"
+              className="mt-7 max-w-2xl text-lg leading-9 text-[#695b54]"
             >
-              KHZ Boutique dirancang untuk wanita yang ingin tampil anggun,
-              sopan, dan tetap modern. Setiap koleksi mengutamakan kenyamanan,
-              warna yang tenang, serta potongan syar’i yang mudah dipakai.
+              KHZ Boutique adalah brand fashion muslimah asal Indonesia dengan
+              pengalaman lebih dari 10 tahun. Dari toko fisik di Pusat Grosir
+              Metro Tanah Abang 2, kamu bisa memilih koleksi KHZ melalui website,
+              Instagram, Facebook, Shopee, dan WhatsApp resmi.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 grid gap-4 sm:grid-cols-3">
               {brandHighlights.map((item) => (
-                <div key={item.title} className="luxury-card rounded-3xl p-5">
+                <div key={item.title} className="luxury-card rounded-2xl p-5">
                   <p className="font-semibold text-[#493832]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-[#8a756d]">
+                  <p className="mt-2 text-sm leading-6 text-[#75665f]">
                     {item.desc}
                   </p>
                 </div>
@@ -469,60 +562,71 @@ export default function Home() {
       <section id="products" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Signature Collection"
-            title="Graceful pieces curated for quiet sophistication"
-            description="Produk Kami"
+            eyebrow="Koleksi Pilihan"
+            title="Empat model favorit untuk harian dan acara keluarga"
+            description="Pilih model yang kamu suka, cek warna yang tersedia, lalu lanjut order melalui Shopee atau WhatsApp resmi KHZ."
           />
           <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
           >
-            {visibleProducts.map((product) => (
+            {featuredCollections.map((collection) => (
               <motion.article
-                id={getProductAnchor(product)}
-                key={`${product.name}-${product.color}`}
+                id={getProductAnchor({ name: collection.name, color: collection.hero.color })}
+                key={collection.name}
                 variants={fadeUp}
                 transition={{ duration: 0.65, ease: "easeOut" }}
-                className="group scroll-mt-28 overflow-hidden rounded-[1.75rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
+                className="group scroll-mt-28 overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
               >
-                <Link
-                  href={getProductWhatsAppHref(product)}
-                  target="_blank"
-                  aria-label={`Tanya ${product.name} warna ${product.color} via WhatsApp`}
-                  className="block"
-                >
-                  <div className="image-shine relative aspect-[4/5] overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={`${product.name} warna ${product.color} koleksi ${getProductSeoCategory(product.name)} KHZ Boutique`}
-                      width={1600}
-                      height={1600}
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/85 px-4 py-3 text-center opacity-0 backdrop-blur-md transition group-hover:opacity-100">
-                      <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9e6f69]">
-                        Inquire via WhatsApp
-                      </span>
-                      <span className="mt-1 block font-display text-2xl text-[#3a2b26]">
-                        {product.price}
-                      </span>
-                    </div>
+                <div className="image-shine relative aspect-[4/5] overflow-hidden">
+                  <Image
+                    src={collection.hero.image}
+                    alt={`${collection.name} koleksi ${getProductSeoCategory(collection.name)} KHZ Boutique`}
+                    width={1600}
+                    height={1600}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#7a2f36] backdrop-blur-md">
+                    Promo terbatas
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-2xl text-[#3a2b26]">
-                      {product.name}
-                    </h3>
-                    <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[#b88984]">
-                      {product.color}
-                    </p>
-                    <p className="mt-4 inline-flex rounded-full border border-[#ead8cf] bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#6f4e37]">
-                      {product.price}
-                    </p>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-3xl text-[#2f2521]">
+                    {collection.name}
+                  </h3>
+                  <p className="mt-3 inline-flex rounded-full border border-[#ead8cf] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#35523f]">
+                    {collection.priceLabel}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {collection.colors.map((color) => (
+                      <span
+                        key={`${collection.name}-${color}`}
+                        className="rounded-full border border-[#ead8cf] bg-white px-3 py-1 text-xs text-[#695b54]"
+                      >
+                        {color}
+                      </span>
+                    ))}
                   </div>
-                </Link>
+                  <div className="mt-6 grid gap-3">
+                    <Link
+                      href={getProductWhatsAppHref({ name: collection.name })}
+                      target="_blank"
+                      className="rounded-full bg-[#35523f] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
+                    >
+                      Tanya Stok
+                    </Link>
+                    <Link
+                      href={links.shopee}
+                      target="_blank"
+                      className="rounded-full border border-[#d7b5ae] bg-white px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#6b514b] transition hover:-translate-y-1"
+                    >
+                      Beli di Shopee
+                    </Link>
+                  </div>
+                </div>
               </motion.article>
             ))}
           </motion.div>
@@ -532,9 +636,9 @@ export default function Home() {
       <section id="order-guide" className="bg-[#fffaf8] py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Order Guide"
-            title="Simple steps for a graceful order"
-            description="Panduan singkat untuk membantu kamu memilih koleksi, memastikan ukuran, dan melanjutkan pemesanan dengan nyaman."
+            eyebrow="Cara Order"
+            title="Pilih produk, cek stok, lalu lanjut checkout"
+            description="Kamu bisa bertanya dulu lewat WhatsApp untuk memastikan warna dan ukuran, atau langsung checkout melalui Shopee."
           />
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <motion.div
@@ -548,15 +652,15 @@ export default function Home() {
                 <motion.div
                   key={step.title}
                   variants={fadeUp}
-                  className="luxury-card rounded-[2rem] p-7"
+                  className="luxury-card rounded-2xl p-7"
                 >
-                  <span className="text-xs font-semibold uppercase tracking-[0.32em] text-[#c99691]">
+                  <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7a2f36]">
                     0{index + 1}
                   </span>
-                  <h3 className="mt-5 font-display text-3xl text-[#3a2b26]">
+                  <h3 className="mt-5 font-display text-3xl text-[#2f2521]">
                     {step.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-7 text-[#76645d]">
+                  <p className="mt-4 text-sm leading-7 text-[#695b54]">
                     {step.desc}
                   </p>
                 </motion.div>
@@ -568,17 +672,17 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="rounded-[2rem] bg-[#3a2b26] p-8 text-white shadow-2xl shadow-[#7d5f58]/10"
+              className="rounded-[1.25rem] bg-[#2f2521] p-8 text-white shadow-2xl shadow-[#7d5f58]/10"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.42em] text-[#f2c9c2]">
-                Size Guide
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#f2c9c2]">
+                Catatan Sebelum Order
               </p>
               <h3 className="mt-5 font-display text-4xl leading-tight">
-                All size, thoughtfully designed.
+                Detail kecil yang membuat belanja lebih nyaman.
               </h3>
               <p className="mt-5 text-sm leading-7 text-white/72">
-                Setiap koleksi dibuat dengan ukuran fleksibel dan detail yang
-                nyaman untuk menemani aktivitas harian hingga momen spesial.
+                Selama promo berlangsung, tim KHZ siap membantu mencocokkan
+                model, warna, dan stok yang tersedia.
               </p>
               <ul className="mt-7 space-y-4">
                 {sizeGuideItems.map((item) => (
@@ -596,9 +700,9 @@ export default function Home() {
       <section id="categories" className="soft-gradient py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Curated Categories"
-            title="Refined edits for every graceful occasion"
-            description="Dari daily wear sampai acara spesial, setiap kategori dibuat dengan karakter yang lembut dan premium."
+            eyebrow="Kategori"
+            title="Pilihan model untuk kebutuhan muslimah modern"
+            description="Pilih kategori sesuai kebutuhanmu, dari busana harian yang nyaman sampai tampilan rapi untuk acara."
           />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {categories.map((category) => (
@@ -608,7 +712,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.65, ease: "easeOut" }}
-                className="group relative min-h-[420px] overflow-hidden rounded-[2rem]"
+                className="group relative min-h-[420px] overflow-hidden rounded-[1.25rem]"
               >
                 <a
                   href={`#${getProductAnchor(category.targetProduct)}`}
@@ -617,15 +721,15 @@ export default function Home() {
                 >
                   <Image
                     src={category.image}
-                    alt={`Koleksi ${category.title} KHZ Boutique untuk fashion Muslimah modern`}
+                    alt={`Koleksi ${category.title} KHZ Boutique untuk fashion Muslimah`}
                     width={1600}
                     height={1600}
                     className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2f2521]/70 via-[#2f2521]/10 to-transparent transition duration-500 group-hover:from-[#2f2521]/78" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2f2521]/74 via-[#2f2521]/12 to-transparent transition duration-500 group-hover:from-[#2f2521]/82" />
                   <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                    <span className="mb-3 inline-flex rounded-full border border-white/30 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white/85 opacity-0 transition duration-500 group-hover:opacity-100">
-                      View Collection
+                    <span className="mb-3 inline-flex rounded-full border border-white/30 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/85 opacity-0 transition duration-500 group-hover:opacity-100">
+                      Lihat Produk
                     </span>
                     <h3 className="font-display text-4xl">{category.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-white/86">
@@ -642,26 +746,28 @@ export default function Home() {
       <section id="testimonials" className="bg-white py-24">
         <div className="section-shell">
           <SectionTitle
-            eyebrow="Client Notes"
-            title="Loved by Our Customers"
-            description="Nuansa lembut, nyaman, dan elegan menjadi alasan pelanggan memilih KHZ Boutique."
+            eyebrow="Layanan KHZ"
+            title="Belanja lebih yakin dengan detail yang jelas"
+            description="Lihat pilihan produk, cek detail warna, lalu hubungi KHZ melalui channel resmi sebelum menyelesaikan pesanan."
           />
           <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((testimonial) => (
+            {serviceNotes.map((note) => (
               <motion.figure
-                key={testimonial.name}
+                key={note.title}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.65, ease: "easeOut" }}
-                className="luxury-card rounded-[2rem] p-8"
+                className="luxury-card rounded-2xl p-8"
               >
-                <div className="mb-5 text-[#c99691]">★★★★★</div>
-                <blockquote className="text-lg leading-8 text-[#66544d]">
-                  “{testimonial.text}”
+                <div className="mb-5 h-10 w-10 rounded-full bg-[#35523f] text-center text-xl leading-10 text-white">
+                  {note.title.charAt(0)}
+                </div>
+                <blockquote className="text-lg leading-8 text-[#5f514b]">
+                  {note.text}
                 </blockquote>
-                <figcaption className="mt-7 font-semibold text-[#3a2b26]">
-                  {testimonial.name}
+                <figcaption className="mt-7 font-semibold text-[#2f2521]">
+                  {note.title}
                 </figcaption>
               </motion.figure>
             ))}
@@ -673,19 +779,19 @@ export default function Home() {
         <div className="section-shell">
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.42em] text-[#b88984]">
-                Editorial Preview
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#7a2f36]">
+                Instagram Preview
               </p>
-              <h2 className="font-display text-4xl text-[#3a2b26] md:text-5xl">
-                Follow the soft elegance
+              <h2 className="font-display text-4xl text-[#2f2521] md:text-5xl">
+                Ikuti update koleksi KHZ
               </h2>
             </div>
             <Link
-              href="https://www.instagram.com/khzboutique"
+              href={links.instagram}
               target="_blank"
-              className="w-fit rounded-full border border-[#d7b5ae] px-7 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#7a5b54] transition hover:-translate-y-1 hover:bg-white"
+              className="w-fit rounded-full border border-[#d7b5ae] px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
             >
-              @khzboutique
+              @khzboutique.id
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -696,16 +802,16 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
-                className="group relative aspect-square overflow-hidden rounded-3xl"
+                className="group relative aspect-square overflow-hidden rounded-2xl"
               >
                 <Image
                   src={item.image}
-                  alt={`${item.name} warna ${item.color} editorial modest wear Muslimah KHZ Boutique`}
+                  alt={`${item.name} warna ${item.color} koleksi KHZ Boutique`}
                   width={1600}
                   height={1600}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-[#3a2b26]/0 transition group-hover:bg-[#3a2b26]/25" />
+                <div className="absolute inset-0 bg-[#2f2521]/0 transition group-hover:bg-[#2f2521]/25" />
               </motion.div>
             ))}
           </div>
@@ -719,46 +825,45 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.75, ease: "easeOut" }}
-            className="relative overflow-hidden rounded-[2.5rem] bg-[#3a2b26] px-6 py-16 text-center text-white md:px-16"
+            className="relative overflow-hidden rounded-[1.5rem] bg-[#2f2521] px-6 py-16 text-center text-white md:px-16"
           >
-            <div className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-[#c99691]/35 blur-3xl" />
-            <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#f0d4cc]/20 blur-3xl" />
             <div className="relative mx-auto max-w-3xl">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.42em] text-[#f2c9c2]">
-                Get in Touch
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#f2c9c2]">
+                Kontak Resmi
               </p>
               <h2 className="font-display text-4xl leading-tight md:text-6xl">
-                Begin your refined modest wardrobe
+                Siap bantu pilih koleksi KHZ yang paling cocok.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/75">
-                Alamat: Metro 2, Lantai Dasar, Blok B No. 216, Tanah Abang, Jakarta Pusat, Indonesia
+                Pusat Grosir Metro Tanah Abang 2, Lantai Dasar, Blok B No. 216,
+                Jakarta Pusat. WhatsApp: {links.whatsappDisplay}.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-nowrap">
                 <Link
-                  href="https://shopee.co.id/khzboutique"
+                  href={links.shopee}
                   target="_blank"
-                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Shopee
                 </Link>
                 <Link
-                  href="https://wa.me/62895352750251?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+                  href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
                   target="_blank"
-                  className="w-full max-w-[17rem] rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74] sm:w-auto sm:max-w-none"
+                  className="w-full max-w-[17rem] rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74] sm:w-auto sm:max-w-none"
                 >
                   WhatsApp
                 </Link>
                 <Link
-                  href="https://www.instagram.com/khzboutique.id"
+                  href={links.instagram}
                   target="_blank"
-                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Instagram
                 </Link>
                 <Link
-                  href="https://facebook.com/khzboutique.id/"
+                  href={links.facebook}
                   target="_blank"
-                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.22em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
+                  className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Facebook
                 </Link>
@@ -774,20 +879,21 @@ export default function Home() {
             <p className="font-display text-3xl tracking-[0.28em] text-[#513b34]">
               KHZ
             </p>
-            <p className="mt-2 text-xs uppercase tracking-[0.38em] text-[#b88984]">
+            <p className="mt-2 text-xs uppercase tracking-[0.34em] text-[#7a2f36]">
               Boutique
             </p>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-[#7c6961]">
-            Boutique muslimah untuk abaya premium, kaftan muslimah, gamis premium,
-            dan tunik set muslimah dengan keanggunan yang timeless.
+          <p className="max-w-xl text-sm leading-7 text-[#695b54]">
+            Brand fashion muslimah Indonesia untuk gamis, abaya, tunic set, dan
+            kaftan dress dari Tanah Abang. Belanja via Shopee atau konsultasi
+            melalui WhatsApp resmi KHZ Boutique.
           </p>
-          <p className="text-sm text-[#9a837a]">© 2026 KHZ Boutique</p>
+          <p className="text-sm text-[#8a756d]">2026 KHZ Boutique</p>
         </div>
       </footer>
 
       <Link
-        href="https://wa.me/6282112995760?text=Assalamualaikum%20KHZ%20Boutique%2C%20saya%20ingin%20tanya%20koleksi%20produk."
+        href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
         target="_blank"
         aria-label="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"

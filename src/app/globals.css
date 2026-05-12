@@ -9,6 +9,8 @@
   --rose-dark: #9e6f69;
   --cream: #f7eee9;
   --sand: #ead8cf;
+  --olive: #35523f;
+  --burgundy: #7a2f36;
   --ink: #2f2521;
 }
 
@@ -51,9 +53,7 @@ body {
 
 .soft-gradient {
   background:
-    radial-gradient(circle at 12% 20%, rgba(227, 191, 184, 0.4), transparent 30%),
-    radial-gradient(circle at 90% 10%, rgba(255, 239, 231, 0.95), transparent 34%),
-    linear-gradient(135deg, #fffaf8 0%, #f8eee9 52%, #fff 100%);
+    linear-gradient(135deg, #fffaf8 0%, #f7eee9 48%, #f4f7f1 100%);
 }
 
 .image-shine::after {
