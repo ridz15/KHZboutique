@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const siteUrl = "https://khzboutique.com";
@@ -198,6 +199,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(brandStructuredData) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );
