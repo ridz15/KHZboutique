@@ -124,6 +124,21 @@ const trustItems = [
   { value: "Shopee/WA", label: "Checkout mudah dan konsultasi cepat" },
 ];
 
+const storePhotos = [
+  {
+    src: "/gallery/khz-store-front.webp",
+    alt: "Tampak depan toko KHZ Boutique di Pusat Grosir Metro Tanah Abang 2",
+    title: "Toko KHZ Boutique",
+    desc: "Lantai Dasar, Blok B No. 216",
+  },
+  {
+    src: "/gallery/khz-store-interior.webp",
+    alt: "Koleksi busana muslimah di toko KHZ Boutique Tanah Abang",
+    title: "Koleksi Bisa Dilihat Langsung",
+    desc: "Cek model, warna, dan detail bahan di toko",
+  },
+];
+
 const orderSteps = [
   {
     title: "Pilih Model",
@@ -555,6 +570,78 @@ export default function Home() {
                 </div>
               ))}
             </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-white py-24">
+        <div className="section-shell grid items-center gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#7a2f36]">
+              Kunjungi Toko
+            </p>
+            <h2 className="font-display max-w-xl text-4xl leading-tight text-[#2f2521] md:text-5xl">
+              Lihat koleksi KHZ langsung di Tanah Abang.
+            </h2>
+            <p className="mt-6 max-w-xl text-lg leading-9 text-[#695b54]">
+              Kamu bisa datang ke Pusat Grosir Metro Tanah Abang 2, Lantai
+              Dasar, Blok B No. 216 untuk melihat pilihan gamis, abaya, tunic
+              set, dan kaftan dress secara langsung.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya lokasi toko di Tanah Abang.")}
+                target="_blank"
+                className="rounded-full bg-[#35523f] px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
+              >
+                Tanya Lokasi
+              </Link>
+              <Link
+                href={links.instagram}
+                target="_blank"
+                className="rounded-full border border-[#d7b5ae] bg-white px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1"
+              >
+                Lihat Instagram
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            className="grid gap-5 sm:grid-cols-2"
+          >
+            {storePhotos.map((photo) => (
+              <motion.figure
+                key={photo.src}
+                variants={fadeUp}
+                transition={{ duration: 0.65, ease: "easeOut" }}
+                className="overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-xl shadow-[#7d5f58]/8"
+              >
+                <div className="image-shine relative aspect-[5/7] overflow-hidden">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={900}
+                    height={1260}
+                    className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                  />
+                </div>
+                <figcaption className="p-5">
+                  <p className="font-semibold text-[#2f2521]">{photo.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#695b54]">
+                    {photo.desc}
+                  </p>
+                </figcaption>
+              </motion.figure>
+            ))}
           </motion.div>
         </div>
       </section>
