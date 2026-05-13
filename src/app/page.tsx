@@ -34,6 +34,7 @@ const navItems = [
 const products = productCollections.flatMap((collection) =>
   collection.variants.map((variant) => ({
     name: collection.name,
+    category: collection.category,
     ...variant,
   })),
 );
@@ -43,6 +44,7 @@ const featuredCollections = productCollections.map((collection) => {
 
   return {
     name: collection.name,
+    category: collection.category,
     hero: collection.variants[0],
     variants: collection.variants,
     colors: collection.variants.map((variant) => variant.color),
@@ -55,27 +57,36 @@ const categories = [
     title: "Abaya",
     desc: "Potongan longgar dan anggun untuk acara maupun tampilan harian.",
     image: "/gallery/A-peach.jpg",
-    targetProduct: { name: "Aisyah Abaya", color: "Black" },
+    targetCategory: "Abaya",
   },
   {
     title: "Gamis",
     desc: "Pilihan praktis untuk tampilan rapi, feminin, dan sopan.",
     image: "/gallery/C-blue.jpg",
-    targetProduct: { name: "Nayla Gamis", color: "Black" },
+    targetCategory: "Gamis",
   },
   {
     title: "Kaftan Dress",
     desc: "Ringan, jatuh cantik, dan mudah dipakai untuk banyak momen.",
     image: "/gallery/kaftan-wulan-maroon.jpg",
-    targetProduct: { name: "Wulan Kaftan", color: "Maroon" },
+    targetCategory: "Kaftan Dress",
   },
   {
     title: "Tunic Set",
     desc: "Setelan modest yang nyaman untuk aktivitas harian.",
     image: "/gallery/D-maroon.jpg",
-    targetProduct: { name: "Zahra Tunic Set", color: "Blue" },
+    targetCategory: "Tunic Set",
   },
 ];
+
+const featuredCategoryCollections = categories
+  .map((category) => ({
+    category: category.title,
+    collections: featuredCollections.filter(
+      (collection) => collection.category === category.title,
+    ),
+  }))
+  .filter((group) => group.collections.length > 0);
 
 const serviceNotes = [
   {
@@ -180,8 +191,8 @@ function toSlug(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-function getProductAnchor(product: Pick<Product, "name">) {
-  return `collection-${toSlug(product.name)}`;
+function getCategoryAnchor(category: string) {
+  return `category-${toSlug(category)}`;
 }
 
 function getProductSeoCategory(productName: string) {
@@ -347,42 +358,55 @@ const colorSwatches: Record<string, string> = {
   Grey: "#9b9690",
   Maroon: "#7a2635",
   Peach: "#e8b9a6",
+  Pink: "#d58fa1",
   Purple: "#8a6a91",
   Rose: "#c18a93",
   White: "#f8f3ec",
+  Yellow: "#d7b84b",
 };
 
 function ProductCollectionCard({
-  collection,
+  category,
+  collections,
 }: {
-  collection: {
+  category: string;
+  collections: {
     name: string;
-    hero: Omit<Product, "name">;
-    variants: Omit<Product, "name">[];
+    hero: Omit<Product, "name" | "category">;
+    variants: Omit<Product, "name" | "category">[];
     priceLabel: string;
-  };
+  }[];
 }) {
-  const [selectedVariant, setSelectedVariant] = useState(collection.hero);
+  const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(0);
+  const selectedCollection = collections[selectedCollectionIndex] ?? collections[0];
+  const [selectedVariant, setSelectedVariant] = useState(selectedCollection.hero);
+  const hasMultipleModels = collections.length > 1;
+
+  function selectCollection(nextIndex: number) {
+    const normalizedIndex = (nextIndex + collections.length) % collections.length;
+    const nextCollection = collections[normalizedIndex];
+
+    setSelectedCollectionIndex(normalizedIndex);
+    setSelectedVariant(nextCollection.hero);
+  }
 
   return (
     <motion.article
-      id={getProductAnchor({
-        name: collection.name,
-      })}
+      id={getCategoryAnchor(category)}
       variants={fadeUp}
       transition={{ duration: 0.65, ease: "easeOut" }}
       className="group flex h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
     >
       <div className="image-shine relative aspect-[4/5] overflow-hidden bg-[#f7eee9]">
-        {collection.variants.map((variant) => {
+        {selectedCollection.variants.map((variant) => {
           const isSelected = variant.color === selectedVariant.color;
 
           return (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              key={`${collection.name}-${variant.color}`}
+              key={`${selectedCollection.name}-${variant.color}`}
               src={variant.image}
-              alt={`${collection.name} warna ${variant.color} koleksi ${getProductSeoCategory(collection.name)} KHZ Boutique`}
+              alt={`${selectedCollection.name} warna ${variant.color} koleksi ${getProductSeoCategory(selectedCollection.name)} KHZ Boutique`}
               loading="eager"
               decoding="async"
               aria-hidden={!isSelected}
@@ -400,23 +424,48 @@ function ProductCollectionCard({
         </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-3xl text-[#2f2521]">
-          {collection.name}
-        </h3>
+        <div className="grid min-h-[3rem] grid-cols-[2.75rem_1fr_2.75rem] items-center gap-2">
+          <button
+            type="button"
+            aria-label={`Lihat model ${category} sebelumnya`}
+            disabled={!hasMultipleModels}
+            onClick={() => selectCollection(selectedCollectionIndex - 1)}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-transparent text-4xl leading-none text-[#c02f35] transition hover:border-[#ead8cf] hover:bg-white disabled:cursor-default disabled:opacity-35 disabled:hover:border-transparent disabled:hover:bg-transparent"
+          >
+            ‹
+          </button>
+          <div className="min-w-0 text-center">
+            <h3 className="font-display text-3xl leading-tight text-[#2f2521]">
+              {selectedCollection.name}
+            </h3>
+            <p className="mx-auto mt-2 w-fit rounded-full border border-[#ead8cf] bg-white/80 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#7a2f36]">
+              {selectedCollectionIndex + 1}/{collections.length}
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-label={`Lihat model ${category} berikutnya`}
+            disabled={!hasMultipleModels}
+            onClick={() => selectCollection(selectedCollectionIndex + 1)}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-transparent text-4xl leading-none text-[#c02f35] transition hover:border-[#ead8cf] hover:bg-white disabled:cursor-default disabled:opacity-35 disabled:hover:border-transparent disabled:hover:bg-transparent"
+          >
+            ›
+          </button>
+        </div>
         <p className="mt-3 inline-flex rounded-full border border-[#ead8cf] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#35523f]">
-          {collection.priceLabel}
+          {selectedCollection.priceLabel}
         </p>
         <div className="mt-5 min-h-[9.5rem]">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a5a52]">
             Pilih warna
           </p>
           <div className="mt-3 grid grid-cols-2 gap-2">
-            {collection.variants.map((variant) => {
+            {selectedCollection.variants.map((variant) => {
               const isSelected = variant.color === selectedVariant.color;
 
               return (
                 <button
-                  key={`${collection.name}-${variant.color}`}
+                  key={`${selectedCollection.name}-${variant.color}`}
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => {
@@ -453,7 +502,7 @@ function ProductCollectionCard({
         <div className="mt-auto grid gap-3 pt-6">
           <ExternalAnchor
             href={getProductWhatsAppHref({
-              name: collection.name,
+              name: selectedCollection.name,
               color: selectedVariant.color,
             })}
             className="rounded-full bg-[#35523f] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
@@ -851,10 +900,11 @@ export default function Home() {
             viewport={{ once: true, margin: "-80px" }}
             className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
           >
-            {featuredCollections.map((collection) => (
+            {featuredCategoryCollections.map((collectionGroup) => (
               <ProductCollectionCard
-                key={collection.name}
-                collection={collection}
+                key={collectionGroup.category}
+                category={collectionGroup.category}
+                collections={collectionGroup.collections}
               />
             ))}
           </motion.div>
@@ -943,7 +993,7 @@ export default function Home() {
                 className="group relative min-h-[420px] overflow-hidden rounded-[1.25rem]"
               >
                 <InternalAnchor
-                  href={`#${getProductAnchor(category.targetProduct)}`}
+                  href={`#${getCategoryAnchor(category.targetCategory)}`}
                   ariaLabel={`Lihat koleksi ${category.title}`}
                   className="block h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#c99691]/45"
                 >
