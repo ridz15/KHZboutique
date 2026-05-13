@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { type ReactNode, useState } from "react";
 import { productCollections, type Product } from "./collections";
 
 const links = {
@@ -44,6 +44,7 @@ const featuredCollections = productCollections.map((collection) => {
   return {
     name: collection.name,
     hero: collection.variants[0],
+    variants: collection.variants,
     colors: collection.variants.map((variant) => variant.color),
     priceLabel: prices.length === 1 ? prices[0] : prices.join(" - "),
   };
@@ -179,8 +180,8 @@ function toSlug(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-function getProductAnchor(product: Pick<Product, "name" | "color">) {
-  return `collection-${toSlug(product.name)}-${toSlug(product.color)}`;
+function getProductAnchor(product: Pick<Product, "name">) {
+  return `collection-${toSlug(product.name)}`;
 }
 
 function getProductSeoCategory(productName: string) {
@@ -197,6 +198,67 @@ function getProductSeoCategory(productName: string) {
   }
 
   return "tunic set muslimah";
+}
+
+function scrollToSection(href: string) {
+  const target = document.getElementById(href.replace("#", ""));
+
+  if (!target) {
+    return;
+  }
+
+  window.history.pushState(null, "", href);
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function InternalAnchor({
+  href,
+  children,
+  className,
+  ariaLabel,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+  ariaLabel?: string;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={ariaLabel}
+      className={className}
+      onClick={(event) => {
+        event.preventDefault();
+        scrollToSection(href);
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+function ExternalAnchor({
+  href,
+  children,
+  className,
+  ariaLabel,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+  ariaLabel?: string;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={ariaLabel}
+      className={className}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  );
 }
 
 const fadeUp = {
@@ -278,6 +340,138 @@ function WhatsAppLogo() {
   );
 }
 
+const colorSwatches: Record<string, string> = {
+  Black: "#171717",
+  Blue: "#4f7296",
+  Brown: "#7a5645",
+  Grey: "#9b9690",
+  Maroon: "#7a2635",
+  Peach: "#e8b9a6",
+  Purple: "#8a6a91",
+  Rose: "#c18a93",
+  White: "#f8f3ec",
+};
+
+function ProductCollectionCard({
+  collection,
+}: {
+  collection: {
+    name: string;
+    hero: Omit<Product, "name">;
+    variants: Omit<Product, "name">[];
+    priceLabel: string;
+  };
+}) {
+  const [selectedVariant, setSelectedVariant] = useState(collection.hero);
+
+  return (
+    <motion.article
+      id={getProductAnchor({
+        name: collection.name,
+      })}
+      variants={fadeUp}
+      transition={{ duration: 0.65, ease: "easeOut" }}
+      className="group flex h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
+    >
+      <div className="image-shine relative aspect-[4/5] overflow-hidden bg-[#f7eee9]">
+        {collection.variants.map((variant) => {
+          const isSelected = variant.color === selectedVariant.color;
+
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={`${collection.name}-${variant.color}`}
+              src={variant.image}
+              alt={`${collection.name} warna ${variant.color} koleksi ${getProductSeoCategory(collection.name)} KHZ Boutique`}
+              loading="eager"
+              decoding="async"
+              aria-hidden={!isSelected}
+              className={`pointer-events-none absolute inset-0 h-full w-full object-contain transition duration-300 group-hover:scale-105 ${
+                isSelected ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          );
+        })}
+        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#7a2f36] backdrop-blur-md">
+          Promo terbatas
+        </div>
+        <div className="absolute bottom-4 left-4 rounded-full bg-[#2f2521]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-md">
+          {selectedVariant.color}
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-3xl text-[#2f2521]">
+          {collection.name}
+        </h3>
+        <p className="mt-3 inline-flex rounded-full border border-[#ead8cf] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#35523f]">
+          {collection.priceLabel}
+        </p>
+        <div className="mt-5 min-h-[9.5rem]">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a5a52]">
+            Pilih warna
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {collection.variants.map((variant) => {
+              const isSelected = variant.color === selectedVariant.color;
+
+              return (
+                <button
+                  key={`${collection.name}-${variant.color}`}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => {
+                    if (!isSelected) {
+                      setSelectedVariant(variant);
+                    }
+                  }}
+                  className={`flex min-h-11 items-center justify-center rounded-full border px-3 text-sm font-medium transition active:scale-[0.98] ${
+                    isSelected
+                      ? "border-[#35523f] bg-[#35523f] text-white shadow-md shadow-[#35523f]/15"
+                      : "border-[#ead8cf] bg-white text-[#695b54] hover:border-[#c99691]"
+                  }`}
+                >
+                  <span className="grid min-w-[5.5rem] grid-cols-[1rem_1fr] items-center gap-2">
+                    <span
+                      aria-hidden="true"
+                      className={`h-4 w-4 rounded-full border ${
+                        variant.color === "White"
+                          ? "border-[#d7b5ae]"
+                          : "border-white/70"
+                      }`}
+                      style={{
+                        backgroundColor:
+                          colorSwatches[variant.color] ?? "#d7b5ae",
+                      }}
+                    />
+                    <span className="text-left">{variant.color}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="mt-auto grid gap-3 pt-6">
+          <ExternalAnchor
+            href={getProductWhatsAppHref({
+              name: collection.name,
+              color: selectedVariant.color,
+            })}
+            className="rounded-full bg-[#35523f] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
+          >
+            Tanya Stok
+          </ExternalAnchor>
+          <ExternalAnchor
+            href={links.shopee}
+            className="rounded-full border border-[#d7b5ae] bg-white px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#6b514b] transition hover:-translate-y-1"
+          >
+            Beli di Shopee
+          </ExternalAnchor>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 function SectionTitle({
   eyebrow,
   title,
@@ -316,44 +510,47 @@ export default function Home() {
     <main className="overflow-hidden">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#ead8cf] bg-white/80 backdrop-blur-2xl">
         <div className="section-shell flex h-20 items-center justify-between">
-          <Link href="#home" className="group" aria-label="KHZ Boutique home">
+          <InternalAnchor
+            href="#home"
+            className="group"
+            ariaLabel="KHZ Boutique home"
+          >
             <span className="block font-display text-3xl tracking-[0.28em] text-[#513b34]">
               KHZ
             </span>
             <span className="block text-center text-[10px] uppercase tracking-[0.42em] text-[#7a2f36]">
               Boutique
             </span>
-          </Link>
+          </InternalAnchor>
 
           <div className="hidden items-center gap-7 lg:flex">
             {navItems.map((item) => (
-              <Link
+              <InternalAnchor
                 key={item.href}
                 href={item.href}
                 className="text-xs font-medium uppercase tracking-[0.2em] text-[#5f514b] transition hover:text-[#7a2f36]"
               >
                 {item.label}
-              </Link>
+              </InternalAnchor>
             ))}
           </div>
 
-          <Link
+          <ExternalAnchor
             href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
-            target="_blank"
             className="rounded-full bg-[#35523f] px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-[#35523f]/20 transition hover:-translate-y-0.5 hover:bg-[#263d2e]"
           >
             WhatsApp
-          </Link>
+          </ExternalAnchor>
         </div>
         <div className="section-shell flex gap-4 overflow-x-auto pb-3 lg:hidden">
           {navItems.map((item) => (
-            <Link
+            <InternalAnchor
               key={`mobile-${item.href}`}
               href={item.href}
               className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5f514b] transition hover:text-[#7a2f36]"
             >
               {item.label}
-            </Link>
+            </InternalAnchor>
           ))}
         </div>
       </nav>
@@ -378,20 +575,18 @@ export default function Home() {
               pengajian, dan acara keluarga.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <Link
+              <ExternalAnchor
                 href={links.shopee}
-                target="_blank"
                 className="rounded-full bg-[#35523f] px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-xl shadow-[#35523f]/20 transition hover:-translate-y-1 hover:bg-[#263d2e]"
               >
                 Belanja di Shopee
-              </Link>
-              <Link
+              </ExternalAnchor>
+              <ExternalAnchor
                 href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin cek stok koleksi terbaru.")}
-                target="_blank"
                 className="rounded-full border border-[#c99691] bg-white/75 px-8 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
               >
                 Chat WhatsApp
-              </Link>
+              </ExternalAnchor>
             </div>
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 text-center">
               {["10+ tahun", "Tangan pertama", "Rp150-300 ribuan"].map((item) => (
@@ -456,20 +651,18 @@ export default function Home() {
                 {campaign.description}
               </p>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <Link
+                <ExternalAnchor
                   href={links.shopee}
-                  target="_blank"
                   className="rounded-full bg-white px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#2f2521] transition hover:-translate-y-1 hover:bg-[#f7eee9]"
                 >
                   Checkout Shopee
-                </Link>
-                <Link
+                </ExternalAnchor>
+                <ExternalAnchor
                   href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin ikut Comeback Sale dan cek stok produk.")}
-                  target="_blank"
                   className="rounded-full border border-white/35 px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10"
                 >
                   Tanya Stok
-                </Link>
+                </ExternalAnchor>
               </div>
             </div>
             <div className="relative min-h-[320px] bg-[#35523f]">
@@ -594,20 +787,18 @@ export default function Home() {
               set, dan kaftan dress secara langsung.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Link
+              <ExternalAnchor
                 href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya lokasi toko di Tanah Abang.")}
-                target="_blank"
                 className="rounded-full bg-[#35523f] px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
               >
                 Tanya Lokasi
-              </Link>
-              <Link
+              </ExternalAnchor>
+              <ExternalAnchor
                 href={links.instagram}
-                target="_blank"
                 className="rounded-full border border-[#d7b5ae] bg-white px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1"
               >
                 Lihat Instagram
-              </Link>
+              </ExternalAnchor>
             </div>
           </motion.div>
 
@@ -661,60 +852,10 @@ export default function Home() {
             className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
           >
             {featuredCollections.map((collection) => (
-              <motion.article
-                id={getProductAnchor({ name: collection.name, color: collection.hero.color })}
+              <ProductCollectionCard
                 key={collection.name}
-                variants={fadeUp}
-                transition={{ duration: 0.65, ease: "easeOut" }}
-                className="group scroll-mt-28 overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
-              >
-                <div className="image-shine relative aspect-[4/5] overflow-hidden">
-                  <Image
-                    src={collection.hero.image}
-                    alt={`${collection.name} koleksi ${getProductSeoCategory(collection.name)} KHZ Boutique`}
-                    width={1600}
-                    height={1600}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#7a2f36] backdrop-blur-md">
-                    Promo terbatas
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-display text-3xl text-[#2f2521]">
-                    {collection.name}
-                  </h3>
-                  <p className="mt-3 inline-flex rounded-full border border-[#ead8cf] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#35523f]">
-                    {collection.priceLabel}
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {collection.colors.map((color) => (
-                      <span
-                        key={`${collection.name}-${color}`}
-                        className="rounded-full border border-[#ead8cf] bg-white px-3 py-1 text-xs text-[#695b54]"
-                      >
-                        {color}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-6 grid gap-3">
-                    <Link
-                      href={getProductWhatsAppHref({ name: collection.name })}
-                      target="_blank"
-                      className="rounded-full bg-[#35523f] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:-translate-y-1 hover:bg-[#263d2e]"
-                    >
-                      Tanya Stok
-                    </Link>
-                    <Link
-                      href={links.shopee}
-                      target="_blank"
-                      className="rounded-full border border-[#d7b5ae] bg-white px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#6b514b] transition hover:-translate-y-1"
-                    >
-                      Beli di Shopee
-                    </Link>
-                  </div>
-                </div>
-              </motion.article>
+                collection={collection}
+              />
             ))}
           </motion.div>
         </div>
@@ -801,9 +942,9 @@ export default function Home() {
                 transition={{ duration: 0.65, ease: "easeOut" }}
                 className="group relative min-h-[420px] overflow-hidden rounded-[1.25rem]"
               >
-                <a
+                <InternalAnchor
                   href={`#${getProductAnchor(category.targetProduct)}`}
-                  aria-label={`Lihat koleksi ${category.title}`}
+                  ariaLabel={`Lihat koleksi ${category.title}`}
                   className="block h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#c99691]/45"
                 >
                   <Image
@@ -823,7 +964,7 @@ export default function Home() {
                       {category.desc}
                     </p>
                   </div>
-                </a>
+                </InternalAnchor>
               </motion.article>
             ))}
           </div>
@@ -873,13 +1014,12 @@ export default function Home() {
                 Ikuti update koleksi KHZ
               </h2>
             </div>
-            <Link
+            <ExternalAnchor
               href={links.instagram}
-              target="_blank"
               className="w-fit rounded-full border border-[#d7b5ae] px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#6b514b] transition hover:-translate-y-1 hover:bg-white"
             >
               @khzboutique.id
-            </Link>
+            </ExternalAnchor>
           </div>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {galleryPreview.map((item) => (
@@ -926,34 +1066,30 @@ export default function Home() {
                 Jakarta Pusat. WhatsApp: {links.whatsappDisplay}.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-nowrap">
-                <Link
+                <ExternalAnchor
                   href={links.shopee}
-                  target="_blank"
                   className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Shopee
-                </Link>
-                <Link
+                </ExternalAnchor>
+                <ExternalAnchor
                   href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
-                  target="_blank"
                   className="w-full max-w-[17rem] rounded-full bg-[#c99691] px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-[#ad7a74] sm:w-auto sm:max-w-none"
                 >
                   WhatsApp
-                </Link>
-                <Link
+                </ExternalAnchor>
+                <ExternalAnchor
                   href={links.instagram}
-                  target="_blank"
                   className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Instagram
-                </Link>
-                <Link
+                </ExternalAnchor>
+                <ExternalAnchor
                   href={links.facebook}
-                  target="_blank"
                   className="w-full max-w-[17rem] rounded-full border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:-translate-y-1 hover:bg-white/10 sm:w-auto sm:max-w-none"
                 >
                   Facebook
-                </Link>
+                </ExternalAnchor>
               </div>
             </div>
           </motion.div>
@@ -979,14 +1115,15 @@ export default function Home() {
         </div>
       </footer>
 
-      <Link
+      <ExternalAnchor
         href={getWhatsAppHref("Assalamualaikum KHZ Boutique, saya ingin tanya koleksi produk.")}
-        target="_blank"
-        aria-label="Chat WhatsApp KHZ Boutique"
+        ariaLabel="Chat WhatsApp KHZ Boutique"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-2xl text-white shadow-2xl shadow-[#25d366]/30 transition hover:-translate-y-1"
       >
         <WhatsAppLogo />
-      </Link>
+      </ExternalAnchor>
     </main>
   );
 }
+
+

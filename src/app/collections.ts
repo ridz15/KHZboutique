@@ -32,6 +32,7 @@ export const productCollections: { name: string; variants: Omit<Product, "name">
       { color: "Blue", image: "/gallery/C-blue.jpg", price: "Rp 190.000" },
       { color: "Brown", image: "/gallery/C-brown.jpg", price: "Rp 190.000" },
       { color: "Peach", image: "/gallery/C-peach.jpg", price: "Rp 190.000" },
+      { color: "Purple", image: "/gallery/C-purple.jpg", price: "Rp 190.000" },
     ],
   },
   {
