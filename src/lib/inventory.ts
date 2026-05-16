@@ -5,6 +5,7 @@ export type InventoryVariant = {
   color: string;
   stock: number;
   code: string;
+  isActive?: boolean;
 };
 
 export type InventoryProduct = {
@@ -23,6 +24,26 @@ export type InventoryProduct = {
 export type InventorySpec = {
   label: string;
   value: string;
+};
+
+type SupabaseInventoryVariant = {
+  code: string;
+  color: string;
+  stock: number;
+  sort_order: number | null;
+  is_active?: boolean;
+};
+
+type SupabaseInventoryProduct = {
+  id: string;
+  code: string;
+  name: string;
+  category: string;
+  price: number;
+  image_url: string | null;
+  specs: InventorySpec[] | null;
+  is_active: boolean;
+  inventory_variants: SupabaseInventoryVariant[] | null;
 };
 
 const productCodeOverrides: Record<string, string> = {
@@ -119,7 +140,7 @@ function inferCategory(folderName: string) {
   return "Produk";
 }
 
-function createShortCode(value: string) {
+export function createInventoryProductCode(value: string) {
   const normalized = normalizeKey(value);
   const override = productCodeOverrides[normalized];
 
@@ -147,7 +168,7 @@ function createShortCode(value: string) {
   return `KHZ-${typeCode}-${descriptorCode}`;
 }
 
-function createColorCode(color: string) {
+export function createInventoryColorCode(color: string) {
   const normalized = normalizeKey(color);
   const override = colorCodeOverrides[normalized];
 
@@ -310,7 +331,7 @@ function parseDetail(detail: string, productCode: string) {
     const stockLine = priceSeen || stockSectionStarted ? parseStockLine(line) : null;
 
     if (stockLine) {
-      const colorCode = createColorCode(stockLine.color);
+      const colorCode = createInventoryColorCode(stockLine.color);
 
       variants.push({
         ...stockLine,
@@ -337,6 +358,39 @@ function getFirstImage(folderPath: string) {
     .sort((a, b) => a.localeCompare(b))[0];
 }
 
+function formatRupiah(value: number) {
+  return `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function parseRupiah(value: string) {
+  const digits = value.replace(/[^\d]/g, "");
+
+  return digits ? Number(digits) : 0;
+}
+
+function specsFromText(value: string) {
+  return mergeSpecs(
+    value
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean),
+  );
+}
+
+function getLocalImageUrlByName(productName: string) {
+  const root = getGudangRoot();
+  const folderName = productName.toLowerCase();
+  const folderPath = path.join(root, folderName);
+
+  if (!folderPath.startsWith(root) || !existsSync(folderPath)) {
+    return null;
+  }
+
+  const image = getFirstImage(folderPath);
+
+  return image ? `/api/gudang-image/${encodeURIComponent(folderName)}` : null;
+}
+
 export function getInventoryProducts(): InventoryProduct[] {
   const root = getGudangRoot();
 
@@ -351,7 +405,7 @@ export function getInventoryProducts(): InventoryProduct[] {
     }))
     .filter(({ folderPath }) => statSync(folderPath).isDirectory())
     .map(({ folderName, folderPath }) => {
-      const code = createShortCode(folderName);
+      const code = createInventoryProductCode(folderName);
       const detailPath = path.join(folderPath, "detail.txt");
       const detail = existsSync(detailPath) ? readFileSync(detailPath, "utf8") : "";
       const parsed = parseDetail(detail, code);
@@ -394,4 +448,312 @@ export function getGudangImagePath(slug: string) {
   const image = getFirstImage(folderPath);
 
   return image ? path.join(folderPath, image) : null;
+}
+
+export async function getSupabaseInventoryProducts(): Promise<InventoryProduct[]> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return getInventoryProducts();
+  }
+
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/inventory_products?select=id,code,name,category,price,image_url,specs,is_active,inventory_variants(code,color,stock,sort_order,is_active)&is_active=eq.true&inventory_variants.is_active=eq.true&order=name.asc&inventory_variants.order=sort_order.asc`,
+    {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Gagal membaca data gudang dari Supabase: ${response.status}`);
+  }
+
+  const products = (await response.json()) as SupabaseInventoryProduct[];
+
+  return products.map((product) => {
+    const variants = (product.inventory_variants ?? [])
+      .filter((variant) => variant.is_active !== false)
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      .map((variant) => ({
+        code: variant.code,
+        color: variant.color,
+        stock: variant.stock,
+        isActive: variant.is_active,
+      }));
+
+    return {
+      slug: encodeURIComponent(product.name.toLowerCase()),
+      folderName: product.name.toLowerCase(),
+      name: product.name,
+      category: product.category,
+      code: product.code,
+      price: product.price > 0 ? formatRupiah(product.price) : "Belum diisi",
+      specs: product.specs ?? [],
+      variants,
+      imageUrl: product.image_url ?? getLocalImageUrlByName(product.name),
+      totalStock: variants.reduce((total, variant) => total + variant.stock, 0),
+    };
+  });
+}
+
+async function supabaseAdminFetch(pathname: string, options: RequestInit = {}) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase admin key belum tersedia di .env.local.");
+  }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/${pathname}`, {
+    ...options,
+    headers: {
+      apikey: serviceRoleKey,
+      Authorization: `Bearer ${serviceRoleKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+      ...(options.headers ?? {}),
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Supabase error ${response.status}: ${errorText}`);
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+
+  return response.json();
+}
+
+export async function updateInventoryVariantStock({
+  variantCode,
+  changeType,
+  quantity,
+  note,
+}: {
+  variantCode: string;
+  changeType: "set" | "add" | "subtract";
+  quantity: number;
+  note?: string;
+}) {
+  const variants = (await supabaseAdminFetch(
+    `inventory_variants?code=eq.${encodeURIComponent(variantCode)}&select=id,stock`,
+  )) as { id: string; stock: number }[];
+  const variant = variants[0];
+
+  if (!variant) {
+    throw new Error("Varian stok tidak ditemukan.");
+  }
+
+  const stockBefore = variant.stock;
+  const stockAfter =
+    changeType === "set"
+      ? quantity
+      : changeType === "add"
+        ? stockBefore + quantity
+        : stockBefore - quantity;
+
+  if (!Number.isInteger(stockAfter) || stockAfter < 0) {
+    throw new Error("Stok tidak boleh kurang dari 0.");
+  }
+
+  await supabaseAdminFetch(
+    `inventory_variants?id=eq.${encodeURIComponent(variant.id)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ stock: stockAfter }),
+    },
+  );
+
+  await supabaseAdminFetch("inventory_stock_movements", {
+    method: "POST",
+    body: JSON.stringify([
+      {
+        variant_id: variant.id,
+        change_type: changeType,
+        quantity: changeType === "subtract" ? -quantity : stockAfter - stockBefore,
+        stock_before: stockBefore,
+        stock_after: stockAfter,
+        note: note?.trim() || null,
+      },
+    ]),
+  });
+
+  return {
+    stockBefore,
+    stockAfter,
+  };
+}
+
+export async function createInventoryProduct({
+  name,
+  category,
+  price,
+  specsText,
+  color,
+  stock,
+  imageUrl,
+}: {
+  name: string;
+  category: string;
+  price: string;
+  specsText: string;
+  color: string;
+  stock: number;
+  imageUrl?: string | null;
+}) {
+  const productCode = createInventoryProductCode(name);
+  const variantCode = `${productCode}-${createInventoryColorCode(color)}`;
+  const [product] = (await supabaseAdminFetch("inventory_products", {
+    method: "POST",
+    body: JSON.stringify([
+      {
+        code: productCode,
+        name: titleCase(name),
+        category: category.trim() || inferCategory(name),
+        price: parseRupiah(price),
+        specs: specsFromText(specsText),
+        image_url: imageUrl ?? null,
+        is_active: true,
+      },
+    ]),
+  })) as { id: string; code: string }[];
+
+  await supabaseAdminFetch("inventory_variants", {
+    method: "POST",
+    body: JSON.stringify([
+      {
+        product_id: product.id,
+        code: variantCode,
+        color: titleCase(color),
+        stock,
+        sort_order: 0,
+        is_active: true,
+      },
+    ]),
+  });
+
+  return product.code;
+}
+
+export async function createInventoryVariant({
+  productCode,
+  color,
+  stock,
+}: {
+  productCode: string;
+  color: string;
+  stock: number;
+}) {
+  const products = (await supabaseAdminFetch(
+    `inventory_products?code=eq.${encodeURIComponent(productCode)}&select=id,code`,
+  )) as { id: string; code: string }[];
+  const product = products[0];
+
+  if (!product) {
+    throw new Error("Produk tidak ditemukan.");
+  }
+
+  const variants = (await supabaseAdminFetch(
+    `inventory_variants?product_id=eq.${encodeURIComponent(product.id)}&select=sort_order`,
+  )) as { sort_order: number | null }[];
+  const nextSortOrder =
+    variants.reduce((max, variant) => Math.max(max, variant.sort_order ?? 0), -1) + 1;
+  const variantCode = `${product.code}-${createInventoryColorCode(color)}`;
+
+  await supabaseAdminFetch("inventory_variants", {
+    method: "POST",
+    body: JSON.stringify([
+      {
+        product_id: product.id,
+        code: variantCode,
+        color: titleCase(color),
+        stock,
+        sort_order: nextSortOrder,
+        is_active: true,
+      },
+    ]),
+  });
+
+  return variantCode;
+}
+
+export async function deactivateInventoryProduct(productCode: string) {
+  await supabaseAdminFetch(
+    `inventory_products?code=eq.${encodeURIComponent(productCode)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ is_active: false }),
+    },
+  );
+}
+
+export async function deactivateInventoryVariant(variantCode: string) {
+  await supabaseAdminFetch(
+    `inventory_variants?code=eq.${encodeURIComponent(variantCode)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ is_active: false }),
+    },
+  );
+}
+
+export async function uploadInventoryPhoto({
+  file,
+  productCode,
+}: {
+  file: File;
+  productCode: string;
+}) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase admin key belum tersedia di .env.local.");
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    throw new Error("Foto maksimal 2MB.");
+  }
+
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    throw new Error("Format foto harus JPG, PNG, atau WEBP.");
+  }
+
+  const extension =
+    {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+    }[file.type] ?? "jpg";
+  const objectPath = `${productCode.toLowerCase()}/${Date.now()}.${extension}`;
+  const response = await fetch(
+    `${supabaseUrl}/storage/v1/object/inventory-photos/${objectPath}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey,
+        "Content-Type": file.type,
+        "x-upsert": "true",
+      },
+      body: file,
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Gagal upload foto: ${response.status} ${errorText}`);
+  }
+
+  return `${supabaseUrl}/storage/v1/object/public/inventory-photos/${objectPath}`;
 }
