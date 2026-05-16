@@ -7,6 +7,7 @@ import {
   createInventoryVariant,
   deactivateInventoryProduct,
   deactivateInventoryVariant,
+  updateInventoryProductDetails,
   updateInventoryProductPhoto,
   updateInventoryVariantStock,
   uploadInventoryPhoto,
@@ -274,6 +275,48 @@ export async function changeProductPhoto(
       ok: false,
       message:
         error instanceof Error ? error.message : "Gagal memperbarui foto produk.",
+    };
+  }
+}
+
+export async function editProduct(
+  _previousState: StockActionState,
+  formData: FormData,
+): Promise<StockActionState> {
+  const pinError = validateAdminPin(String(formData.get("adminPin") ?? ""));
+
+  if (pinError) return pinError;
+
+  const productCode = String(formData.get("productCode") ?? "").trim();
+  const name = String(formData.get("name") ?? "").trim();
+  const category = String(formData.get("category") ?? "").trim();
+  const price = String(formData.get("price") ?? "").trim();
+  const specsText = String(formData.get("specsText") ?? "");
+
+  if (!productCode || !name || !category || !price) {
+    return {
+      ok: false,
+      message: "Nama, kategori, dan harga wajib diisi.",
+    };
+  }
+
+  try {
+    await updateInventoryProductDetails({
+      productCode,
+      name,
+      category,
+      price,
+      specsText,
+    });
+
+    revalidatePath("/gudang");
+
+    return { ok: true, message: "Detail produk berhasil diperbarui." };
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Gagal memperbarui detail produk.",
     };
   }
 }

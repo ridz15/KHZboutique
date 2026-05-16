@@ -6,6 +6,7 @@ import {
   AddProductForm,
   AddVariantForm,
   DeactivateProductButton,
+  EditProductForm,
   ProductPhotoForm,
 } from "./management-controls";
 import { StockControls } from "./stock-controls";
@@ -36,6 +37,16 @@ function productMatchesSearch(product: InventoryProduct, query: string) {
     .toLowerCase();
 
   return searchableText.includes(normalizedQuery);
+}
+
+function specsToText(product: InventoryProduct) {
+  return product.specs
+    .map((spec) =>
+      spec.label === "Catatan"
+        ? spec.value
+        : `${spec.label} ${spec.value}`,
+    )
+    .join("\n");
 }
 
 export function InventoryList({ products }: { products: InventoryProduct[] }) {
@@ -214,6 +225,15 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
                   <ProductPhotoForm
                     adminPin={adminPin}
                     productCode={product.code}
+                  />
+
+                  <EditProductForm
+                    adminPin={adminPin}
+                    productCode={product.code}
+                    name={product.name}
+                    category={product.category}
+                    price={product.price}
+                    specsText={specsToText(product)}
                   />
 
                   {product.specs.length > 0 ? (

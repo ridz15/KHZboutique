@@ -7,6 +7,7 @@ import {
   changeProductPhoto,
   deactivateProduct,
   deactivateVariant,
+  editProduct,
   type StockActionState,
 } from "./actions";
 
@@ -193,6 +194,82 @@ export function ProductPhotoForm({
           className="min-h-11 rounded-lg bg-[#35523f] px-4 text-xs font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-55 md:w-fit"
         >
           Simpan Foto
+        </button>
+        <ActionMessage state={state} />
+      </form>
+    </details>
+  );
+}
+
+export function EditProductForm({
+  adminPin,
+  productCode,
+  name,
+  category,
+  price,
+  specsText,
+}: {
+  adminPin: string;
+  productCode: string;
+  name: string;
+  category: string;
+  price: string;
+  specsText: string;
+}) {
+  const [state, formAction, pending] = useActionState(editProduct, initialState);
+
+  return (
+    <details className="mt-4 rounded-xl border border-[#ead8cf] bg-white px-3 py-3">
+      <summary className="cursor-pointer text-sm font-semibold text-[#6b514b]">
+        Edit detail produk
+      </summary>
+      <form action={formAction} className="mt-4 grid gap-3">
+        <input type="hidden" name="adminPin" value={adminPin} />
+        <input type="hidden" name="productCode" value={productCode} />
+        <div className="grid gap-3 md:grid-cols-2">
+          <label className="grid gap-1 text-sm font-semibold text-[#6b514b]">
+            Nama produk
+            <input
+              name="name"
+              className={inputClass}
+              defaultValue={name}
+            />
+          </label>
+          <label className="grid gap-1 text-sm font-semibold text-[#6b514b]">
+            Kategori
+            <select name="category" className={inputClass} defaultValue={category}>
+              <option>Abaya</option>
+              <option>Kaftan</option>
+              <option>Gamis</option>
+              <option>Tunic Set</option>
+              <option>Set</option>
+              <option>Midi</option>
+              <option>Produk</option>
+            </select>
+          </label>
+          <label className="grid gap-1 text-sm font-semibold text-[#6b514b]">
+            Harga
+            <input
+              name="price"
+              className={inputClass}
+              defaultValue={price}
+            />
+          </label>
+        </div>
+        <label className="grid gap-1 text-sm font-semibold text-[#6b514b]">
+          Detail bahan dan ukuran
+          <textarea
+            name="specsText"
+            className={`${inputClass} min-h-32 py-3`}
+            defaultValue={specsText}
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={pending || !adminPin}
+          className="min-h-11 rounded-lg bg-[#35523f] px-4 text-xs font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-55 md:w-fit"
+        >
+          Simpan Detail
         </button>
         <ActionMessage state={state} />
       </form>

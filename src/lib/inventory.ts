@@ -713,6 +713,33 @@ export async function updateInventoryProductPhoto({
   );
 }
 
+export async function updateInventoryProductDetails({
+  productCode,
+  name,
+  category,
+  price,
+  specsText,
+}: {
+  productCode: string;
+  name: string;
+  category: string;
+  price: string;
+  specsText: string;
+}) {
+  await supabaseAdminFetch(
+    `inventory_products?code=eq.${encodeURIComponent(productCode)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        name: titleCase(name),
+        category: category.trim() || inferCategory(name),
+        price: parseRupiah(price),
+        specs: specsFromText(specsText),
+      }),
+    },
+  );
+}
+
 export async function deactivateInventoryVariant(variantCode: string) {
   await supabaseAdminFetch(
     `inventory_variants?code=eq.${encodeURIComponent(variantCode)}`,
