@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { getSupabaseInventoryProducts } from "@/lib/inventory";
+import { logoutInventory } from "./auth-actions";
+import { isInventoryAuthenticated } from "./auth";
 import { InventoryList } from "./inventory-list";
+import { InventoryLoginForm } from "./login-form";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +20,28 @@ function formatNumber(value: number) {
 }
 
 export default async function GudangPage() {
+  const isAuthenticated = await isInventoryAuthenticated();
+
+  if (!isAuthenticated) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#f6f1ec] px-4 py-10 text-[#2f2521]">
+        <section className="w-full max-w-md rounded-2xl border border-[#ead8cf] bg-[#fffaf8] p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7a2f36]">
+            Gudang Internal
+          </p>
+          <h1 className="mt-3 font-display text-4xl leading-tight">
+            Masuk ke Gudang KHZ
+          </h1>
+          <p className="mt-3 text-sm leading-7 text-[#695b54]">
+            Halaman ini berisi data stok internal. Masukkan PIN gudang untuk
+            melihat dan mengelola produk.
+          </p>
+          <InventoryLoginForm />
+        </section>
+      </main>
+    );
+  }
+
   const products = await getSupabaseInventoryProducts();
   const totalProducts = products.length;
   const totalVariants = products.reduce(
@@ -45,8 +70,20 @@ export default async function GudangPage() {
               </p>
             </div>
             <div className="rounded-2xl border border-[#ead8cf] bg-white px-5 py-4 text-sm text-[#695b54]">
-              <p className="font-semibold text-[#2f2521]">Status</p>
-              <p>Data dari database, stok bisa diedit dengan PIN admin.</p>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-semibold text-[#2f2521]">Status</p>
+                  <p>Data dari database, stok bisa diedit dengan PIN admin.</p>
+                </div>
+                <form action={logoutInventory}>
+                  <button
+                    type="submit"
+                    className="rounded-lg border border-[#d7b5ae] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-[#6b514b]"
+                  >
+                    Keluar
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
 
