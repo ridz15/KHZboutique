@@ -697,6 +697,22 @@ export async function deactivateInventoryProduct(productCode: string) {
   );
 }
 
+export async function updateInventoryProductPhoto({
+  productCode,
+  imageUrl,
+}: {
+  productCode: string;
+  imageUrl: string;
+}) {
+  await supabaseAdminFetch(
+    `inventory_products?code=eq.${encodeURIComponent(productCode)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ image_url: imageUrl }),
+    },
+  );
+}
+
 export async function deactivateInventoryVariant(variantCode: string) {
   await supabaseAdminFetch(
     `inventory_variants?code=eq.${encodeURIComponent(variantCode)}`,

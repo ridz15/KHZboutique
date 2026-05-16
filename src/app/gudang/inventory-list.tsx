@@ -6,6 +6,7 @@ import {
   AddProductForm,
   AddVariantForm,
   DeactivateProductButton,
+  ProductPhotoForm,
 } from "./management-controls";
 import { StockControls } from "./stock-controls";
 
@@ -206,6 +207,11 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
                   </div>
 
                   <AddVariantForm
+                    adminPin={adminPin}
+                    productCode={product.code}
+                  />
+
+                  <ProductPhotoForm
                     adminPin={adminPin}
                     productCode={product.code}
                   />

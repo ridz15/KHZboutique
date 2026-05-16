@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import {
   addProduct,
   addVariant,
+  changeProductPhoto,
   deactivateProduct,
   deactivateVariant,
   type StockActionState,
@@ -125,6 +126,73 @@ export function AddProductForm({ adminPin }: { adminPin: string }) {
           className="min-h-12 rounded-xl bg-[#35523f] px-5 text-sm font-semibold uppercase tracking-[0.12em] text-white disabled:opacity-55 md:w-fit"
         >
           Tambah Produk
+        </button>
+        <ActionMessage state={state} />
+      </form>
+    </details>
+  );
+}
+
+export function ProductPhotoForm({
+  adminPin,
+  productCode,
+}: {
+  adminPin: string;
+  productCode: string;
+}) {
+  const [state, formAction, pending] = useActionState(
+    changeProductPhoto,
+    initialState,
+  );
+  const [photoError, setPhotoError] = useState("");
+
+  return (
+    <details className="mt-4 rounded-xl border border-[#ead8cf] bg-white px-3 py-3">
+      <summary className="cursor-pointer text-sm font-semibold text-[#6b514b]">
+        Upload/ganti foto
+      </summary>
+      <form action={formAction} className="mt-3 grid gap-3">
+        <input type="hidden" name="adminPin" value={adminPin} />
+        <input type="hidden" name="productCode" value={productCode} />
+        <label className="grid gap-1 text-sm font-semibold text-[#6b514b]">
+          Foto produk
+          <input
+            name="photo"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+
+              if (!file) {
+                setPhotoError("");
+                return;
+              }
+
+              if (file.size > 2 * 1024 * 1024) {
+                setPhotoError("Foto terlalu besar. Maksimal 2MB.");
+                event.target.value = "";
+                return;
+              }
+
+              setPhotoError("");
+            }}
+            className="min-h-11 rounded-lg border border-[#ead8cf] bg-white px-3 py-2 text-sm text-[#2f2521] file:mr-3 file:rounded-lg file:border-0 file:bg-[#35523f] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
+          />
+          <span className="text-xs font-normal leading-5 text-[#8a756d]">
+            JPG, PNG, atau WEBP maksimal 2MB.
+          </span>
+          {photoError ? (
+            <span className="text-xs font-normal leading-5 text-[#8a2c2c]">
+              {photoError}
+            </span>
+          ) : null}
+        </label>
+        <button
+          type="submit"
+          disabled={pending || !adminPin || Boolean(photoError)}
+          className="min-h-11 rounded-lg bg-[#35523f] px-4 text-xs font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-55 md:w-fit"
+        >
+          Simpan Foto
         </button>
         <ActionMessage state={state} />
       </form>

@@ -7,6 +7,7 @@ import {
   createInventoryVariant,
   deactivateInventoryProduct,
   deactivateInventoryVariant,
+  updateInventoryProductPhoto,
   updateInventoryVariantStock,
   uploadInventoryPhoto,
 } from "@/lib/inventory";
@@ -239,6 +240,40 @@ export async function deactivateVariant(
         error instanceof Error
           ? error.message
           : "Gagal menonaktifkan varian.",
+    };
+  }
+}
+
+export async function changeProductPhoto(
+  _previousState: StockActionState,
+  formData: FormData,
+): Promise<StockActionState> {
+  const pinError = validateAdminPin(String(formData.get("adminPin") ?? ""));
+
+  if (pinError) return pinError;
+
+  const productCode = String(formData.get("productCode") ?? "").trim();
+  const photo = formData.get("photo");
+
+  if (!productCode) {
+    return { ok: false, message: "Kode produk tidak ditemukan." };
+  }
+
+  if (!(photo instanceof File) || photo.size === 0) {
+    return { ok: false, message: "Pilih foto produk dulu." };
+  }
+
+  try {
+    const imageUrl = await uploadInventoryPhoto({ file: photo, productCode });
+    await updateInventoryProductPhoto({ productCode, imageUrl });
+    revalidatePath("/gudang");
+
+    return { ok: true, message: "Foto produk berhasil diperbarui." };
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Gagal memperbarui foto produk.",
     };
   }
 }
