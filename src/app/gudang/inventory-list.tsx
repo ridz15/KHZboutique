@@ -27,6 +27,7 @@ function productMatchesSearch(product: InventoryProduct, query: string) {
     product.category,
     product.code,
     product.price,
+    ...product.specs.flatMap((spec) => [spec.label, spec.value]),
     ...product.variants.flatMap((variant) => [
       variant.color,
       variant.code,
