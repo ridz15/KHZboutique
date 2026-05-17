@@ -42,3 +42,8 @@ next-env.d.ts
 
 /Gallery
 /Gudang
+
+# local Supabase backups
+/Backup supabse/
+/Backup supabase/
+/Backup Supabase/

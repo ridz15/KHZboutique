@@ -49,6 +49,13 @@ function specsToText(product: InventoryProduct) {
     .join("\n");
 }
 
+function visibleVariantChips(product: InventoryProduct) {
+  const visible = product.variants.slice(0, 4);
+  const hiddenCount = Math.max(product.variants.length - visible.length, 0);
+
+  return { visible, hiddenCount };
+}
+
 export function InventoryList({ products }: { products: InventoryProduct[] }) {
   const [query, setQuery] = useState("");
   const [adminPin, setAdminPin] = useState("");
@@ -140,44 +147,42 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 xl:grid-cols-2">
+        <div className="grid gap-3 lg:grid-cols-2">
           {filteredProducts.map((product) => (
-            <article
+            <details
               key={product.code}
-              className="overflow-hidden rounded-2xl border border-[#ead8cf] bg-white shadow-sm"
+              className="group overflow-hidden rounded-2xl border border-[#ead8cf] bg-white shadow-sm"
             >
-              <div className="grid gap-0 lg:grid-cols-[170px_1fr]">
-                <div className="flex min-h-36 items-center justify-center border-b border-[#ead8cf] bg-[#f7eee9] p-3 lg:min-h-full lg:border-b-0 lg:border-r">
+              <summary className="grid cursor-pointer list-none gap-3 p-3 sm:grid-cols-[5.5rem_1fr_auto] sm:items-center">
+                <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-[#f7eee9] p-1">
                   {product.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={product.imageUrl}
                       alt={`Foto ${product.name}`}
-                      className="max-h-44 w-full object-contain lg:max-h-56"
+                      className="h-full w-full object-contain"
                     />
                   ) : (
-                    <div className="flex h-full min-h-36 items-center justify-center px-4 text-center text-sm text-[#8a756d]">
-                      Foto belum ada
+                    <div className="px-2 text-center text-xs text-[#8a756d]">
+                      No foto
                     </div>
                   )}
                 </div>
 
-                <div className="flex min-w-0 flex-col p-4">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a2f36]">
-                        {product.category}
-                      </p>
-                      <h2 className="mt-1 font-display text-2xl leading-tight md:text-3xl">
-                        {product.name}
-                      </h2>
-                    </div>
-                    <div className="rounded-full bg-[#35523f] px-3 py-1.5 text-xs font-semibold text-white">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a2f36]">
+                      {product.category}
+                    </p>
+                    <span className="rounded-full bg-[#35523f] px-2.5 py-1 text-[0.65rem] font-semibold text-white">
                       {product.code}
-                    </div>
+                    </span>
                   </div>
+                  <h2 className="mt-1 font-display text-2xl leading-tight text-[#2f2521]">
+                    {product.name}
+                  </h2>
 
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-2">
                     <span className="rounded-full border border-[#ead8cf] px-3 py-1 text-xs font-semibold text-[#35523f]">
                       {product.price}
                     </span>
@@ -186,6 +191,38 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
                     </span>
                   </div>
 
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {visibleVariantChips(product).visible.map((variant) => (
+                      <span
+                        key={variant.code}
+                        className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                          variant.stock === 0
+                            ? "bg-[#fff1f1] text-[#8a2c2c]"
+                            : "bg-[#fffaf8] text-[#6b514b]"
+                        }`}
+                      >
+                        {variant.color} {formatNumber(variant.stock)}
+                      </span>
+                    ))}
+                    {visibleVariantChips(product).hiddenCount > 0 ? (
+                      <span className="rounded-full bg-[#f7eee9] px-2.5 py-1 text-xs font-semibold text-[#8a756d]">
+                        +{visibleVariantChips(product).hiddenCount} warna
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#8a756d]">
+                    Detail
+                  </span>
+                  <span className="rounded-full border border-[#d7b5ae] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#6b514b] group-open:bg-[#35523f] group-open:text-white">
+                    Buka
+                  </span>
+                </div>
+              </summary>
+
+              <div className="border-t border-[#ead8cf] bg-white p-4">
                   <div className="mt-4 overflow-hidden rounded-xl border border-[#ead8cf]">
                     {product.variants.map((variant) => (
                       <div
@@ -263,9 +300,8 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
                     adminPin={adminPin}
                     productCode={product.code}
                   />
-                </div>
               </div>
-            </article>
+            </details>
           ))}
         </div>
       )}
