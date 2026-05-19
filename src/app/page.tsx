@@ -1025,8 +1025,8 @@ export default function Home() {
         <div className="section-shell">
           <SectionTitle
             eyebrow="Koleksi Pilihan"
-            title="Empat model favorit untuk harian dan acara keluarga"
-            description="Pilih model yang kamu suka, cek warna yang tersedia, lalu lanjut order melalui Shopee atau WhatsApp resmi KHZ."
+            title="Pilihan busana muslimah KHZ untuk harian dan acara keluarga"
+            description="Temukan abaya, gamis, kaftan, dan tunic set dengan pilihan warna yang bisa dicek langsung melalui WhatsApp atau Shopee resmi KHZ."
           />
           <motion.div
             variants={stagger}
