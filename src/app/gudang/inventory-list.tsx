@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { InventoryProduct } from "@/lib/inventory";
 import {
   AddProductForm,
@@ -9,7 +9,7 @@ import {
   EditProductForm,
   ProductPhotoForm,
 } from "./management-controls";
-import { StockControls } from "./stock-controls";
+import { ProductBulkStockControls, StockControls } from "./stock-controls";
 
 function formatNumber(value: number) {
   return new Intl.NumberFormat("id-ID").format(value);
@@ -58,12 +58,17 @@ function visibleVariantChips(product: InventoryProduct) {
 }
 
 export function InventoryList({ products }: { products: InventoryProduct[] }) {
+  const [localProducts, setLocalProducts] = useState(products);
   const [query, setQuery] = useState("");
   const [adminPin, setAdminPin] = useState("");
   const filteredProducts = useMemo(
-    () => products.filter((product) => productMatchesSearch(product, query)),
-    [products, query],
+    () => localProducts.filter((product) => productMatchesSearch(product, query)),
+    [localProducts, query],
   );
+
+  useEffect(() => {
+    setLocalProducts(products);
+  }, [products]);
 
   useEffect(() => {
     const savedPin = window.localStorage.getItem("khz_inventory_pin");
@@ -78,7 +83,36 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
     window.localStorage.setItem("khz_inventory_pin", value);
   }
 
-  if (products.length === 0) {
+  const handleOptimisticStockChange = useCallback(
+    (variantCode: string, stock: number) => {
+      setLocalProducts((currentProducts) =>
+        currentProducts.map((product) => {
+          let changed = false;
+          const variants = product.variants.map((variant) => {
+            if (variant.code !== variantCode) {
+              return variant;
+            }
+
+            changed = true;
+            return { ...variant, stock };
+          });
+
+          if (!changed) {
+            return product;
+          }
+
+          return {
+            ...product,
+            variants,
+            totalStock: variants.reduce((total, variant) => total + variant.stock, 0),
+          };
+        }),
+      );
+    },
+    [],
+  );
+
+  if (localProducts.length === 0) {
     return (
       <div className="rounded-2xl border border-[#ead8cf] bg-white p-8 text-center">
         <h2 className="font-display text-3xl">Belum ada data gudang</h2>
@@ -119,7 +153,8 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
           </label>
           <div className="flex items-center justify-between gap-3 lg:pb-1">
             <p className="text-sm font-semibold text-[#695b54]">
-              {formatNumber(filteredProducts.length)} dari {formatNumber(products.length)} model
+              {formatNumber(filteredProducts.length)} dari{" "}
+              {formatNumber(localProducts.length)} model
             </p>
             {query ? (
               <button
@@ -249,11 +284,19 @@ export function InventoryList({ products }: { products: InventoryProduct[] }) {
                             currentStock={variant.stock}
                             color={variant.color}
                             adminPin={adminPin}
+                            onOptimisticStockChange={handleOptimisticStockChange}
                           />
                         </div>
                       </div>
                     ))}
                   </div>
+
+                  <ProductBulkStockControls
+                    productCode={product.code}
+                    variants={product.variants}
+                    adminPin={adminPin}
+                    onOptimisticStockChange={handleOptimisticStockChange}
+                  />
 
                   <AddVariantForm
                     adminPin={adminPin}

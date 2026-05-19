@@ -594,6 +594,84 @@ export async function updateInventoryVariantStock({
   };
 }
 
+export async function updateInventoryProductVariantStocks({
+  productCode,
+  changeType,
+  quantity,
+  note,
+}: {
+  productCode: string;
+  changeType: "add" | "subtract";
+  quantity: number;
+  note?: string;
+}) {
+  const products = (await supabaseAdminFetch(
+    `inventory_products?code=eq.${encodeURIComponent(productCode)}&select=id`,
+  )) as { id: string }[];
+  const product = products[0];
+
+  if (!product) {
+    throw new Error("Produk tidak ditemukan.");
+  }
+
+  const variants = (await supabaseAdminFetch(
+    `inventory_variants?product_id=eq.${encodeURIComponent(product.id)}&is_active=eq.true&select=id,code,color,stock`,
+  )) as { id: string; code: string; color: string; stock: number }[];
+
+  if (variants.length === 0) {
+    throw new Error("Produk ini belum punya warna aktif.");
+  }
+
+  const updates = variants.map((variant) => {
+    const stockAfter =
+      changeType === "add" ? variant.stock + quantity : variant.stock - quantity;
+
+    if (!Number.isInteger(stockAfter) || stockAfter < 0) {
+      throw new Error(
+        `Stok ${variant.color} tidak boleh kurang dari 0. Stok sekarang ${variant.stock}.`,
+      );
+    }
+
+    return {
+      ...variant,
+      stockBefore: variant.stock,
+      stockAfter,
+    };
+  });
+
+  await Promise.all(
+    updates.map((variant) =>
+      supabaseAdminFetch(
+        `inventory_variants?id=eq.${encodeURIComponent(variant.id)}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ stock: variant.stockAfter }),
+        },
+      ),
+    ),
+  );
+
+  await supabaseAdminFetch("inventory_stock_movements", {
+    method: "POST",
+    body: JSON.stringify(
+      updates.map((variant) => ({
+        variant_id: variant.id,
+        change_type: changeType,
+        quantity: changeType === "subtract" ? -quantity : quantity,
+        stock_before: variant.stockBefore,
+        stock_after: variant.stockAfter,
+        note: note?.trim() || `Update semua warna ${productCode}`,
+      })),
+    ),
+  });
+
+  return updates.map((variant) => ({
+    variantCode: variant.code,
+    stockBefore: variant.stockBefore,
+    stockAfter: variant.stockAfter,
+  }));
+}
+
 export async function createInventoryProduct({
   name,
   category,

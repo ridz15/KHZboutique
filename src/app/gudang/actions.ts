@@ -9,6 +9,7 @@ import {
   deactivateInventoryVariant,
   updateInventoryProductDetails,
   updateInventoryProductPhoto,
+  updateInventoryProductVariantStocks,
   updateInventoryVariantStock,
   uploadInventoryPhoto,
 } from "@/lib/inventory";
@@ -16,6 +17,9 @@ import {
 export type StockActionState = {
   ok: boolean;
   message: string;
+  variantCode?: string;
+  stockAfter?: number;
+  stockUpdates?: { variantCode: string; stockAfter: number }[];
 };
 
 function validateAdminPin(adminPin: string): StockActionState | null {
@@ -85,11 +89,65 @@ export async function changeStock(
     return {
       ok: true,
       message: `Stok berhasil diubah: ${result.stockBefore} -> ${result.stockAfter}.`,
+      variantCode,
+      stockAfter: result.stockAfter,
     };
   } catch (error) {
     return {
       ok: false,
       message: error instanceof Error ? error.message : "Gagal mengubah stok.",
+      variantCode,
+    };
+  }
+}
+
+export async function changeProductStocks(
+  _previousState: StockActionState,
+  formData: FormData,
+): Promise<StockActionState> {
+  const adminPin = String(formData.get("adminPin") ?? "");
+  const productCode = String(formData.get("productCode") ?? "");
+  const changeType = String(formData.get("changeType") ?? "");
+  const quantity = Number(formData.get("quantity") ?? 0);
+  const note = String(formData.get("note") ?? "");
+  const pinError = validateAdminPin(adminPin);
+
+  if (pinError) return pinError;
+
+  if (!productCode || !["add", "subtract"].includes(changeType)) {
+    return {
+      ok: false,
+      message: "Data perubahan stok semua warna tidak lengkap.",
+    };
+  }
+
+  if (!Number.isInteger(quantity) || quantity <= 0) {
+    return {
+      ok: false,
+      message: "Jumlah tambah/kurang harus angka bulat lebih dari 0.",
+    };
+  }
+
+  try {
+    const stockUpdates = await updateInventoryProductVariantStocks({
+      productCode,
+      changeType: changeType as "add" | "subtract",
+      quantity,
+      note,
+    });
+
+    revalidatePath("/gudang");
+
+    return {
+      ok: true,
+      message: `${stockUpdates.length} warna berhasil diubah.`,
+      stockUpdates,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Gagal mengubah stok semua warna.",
     };
   }
 }
