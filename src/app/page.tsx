@@ -357,6 +357,7 @@ const colorSwatches: Record<string, string> = {
   Blue: "#4f7296",
   Burgundy: "#5a1630",
   Brown: "#7a5645",
+  Cream: "#f0e5d2",
   "Dusty Rose": "#a85c53",
   Grey: "#9b9690",
   Maroon: "#7a2635",
@@ -365,6 +366,7 @@ const colorSwatches: Record<string, string> = {
   Pink: "#d58fa1",
   Purple: "#8a6a91",
   Rose: "#c18a93",
+  Salmon: "#d7a093",
   White: "#f8f3ec",
   Yellow: "#d7b84b",
 };
@@ -503,7 +505,9 @@ function ProductCollectionCard({
                     <span
                       aria-hidden="true"
                       className={`h-4 w-4 rounded-full border ${
-                        variant.color === "White" || variant.color === "Broken White"
+                        variant.color === "White" ||
+                        variant.color === "Broken White" ||
+                        variant.color === "Cream"
                           ? "border-[#d7b5ae]"
                           : "border-white/70"
                       }`}
@@ -609,7 +613,8 @@ function ProductCollectionCard({
                             aria-hidden="true"
                             className={`h-4 w-4 rounded-full border ${
                               variant.color === "White" ||
-                              variant.color === "Broken White"
+                              variant.color === "Broken White" ||
+                              variant.color === "Cream"
                                 ? "border-[#d7b5ae]"
                                 : "border-white/70"
                             }`}

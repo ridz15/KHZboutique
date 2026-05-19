@@ -29,6 +29,7 @@ export const productCollections: {
       { color: "Maroon", image: "/gallery/kaftan-wulan-maroon.jpg", price: "Rp 185.000" },
       { color: "Rose", image: "/gallery/kaftan-wulan-purple.jpg", price: "Rp 185.000" },
       { color: "Broken White", image: "/gallery/kaftan-wulan-white.jpg", price: "Rp 185.000" },
+      { color: "White", image: "/gallery/kaftan-wulan-white-bright.jpg", price: "Rp 185.000" },
       { color: "Blue", image: "/gallery/kaftan-wulan-blue.jpg", price: "Rp 185.000" },
     ],
   },
@@ -73,6 +74,15 @@ export const productCollections: {
     ],
   },
   {
+    name: "Abaya Anindya",
+    category: "Abaya",
+    variants: [
+      { color: "Black", image: "/gallery/abaya-anindya-black.jpg", price: "Rp 240.000" },
+      { color: "Salmon", image: "/gallery/abaya-anindya-salmon.jpg", price: "Rp 240.000" },
+      { color: "Burgundy", image: "/gallery/abaya-anindya-burgundy.jpg", price: "Rp 240.000" },
+    ],
+  },
+  {
     name: "Kaftan Donatelo",
     category: "Kaftan",
     variants: [
@@ -90,6 +100,15 @@ export const productCollections: {
       { color: "Brown", image: "/gallery/gamis-katun-bordir-coklat.jpg", price: "Rp 200.000" },
       { color: "Burgundy", image: "/gallery/gamis-katun-bordir-burgundy.jpg", price: "Rp 200.000" },
       { color: "Blue", image: "/gallery/gamis-katun-bordir-biru.jpg", price: "Rp 200.000" },
+    ],
+  },
+  {
+    name: "Tunic Set Tencel",
+    category: "Tunic Set",
+    variants: [
+      { color: "Brown", image: "/gallery/tunic-set-tencel-brown.jpg", price: "Rp 190.000" },
+      { color: "Black", image: "/gallery/tunic-set-tencel-black.jpg", price: "Rp 190.000" },
+      { color: "Cream", image: "/gallery/tunic-set-tencel-cream.jpg", price: "Rp 190.000" },
     ],
   },
 ];
