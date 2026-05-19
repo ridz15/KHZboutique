@@ -66,10 +66,10 @@ const categories = [
     targetCategory: "Gamis",
   },
   {
-    title: "Kaftan Dress",
+    title: "Kaftan",
     desc: "Ringan, jatuh cantik, dan mudah dipakai untuk banyak momen.",
     image: "/gallery/kaftan-wulan-maroon.jpg",
-    targetCategory: "Kaftan Dress",
+    targetCategory: "Kaftan",
   },
   {
     title: "Tunic Set",
@@ -154,7 +154,7 @@ const storePhotos = [
 const orderSteps = [
   {
     title: "Pilih Model",
-    desc: "Mulai dari empat koleksi utama: Aisyah Abaya, Wulan Kaftan, Nayla Gamis, dan Zahra Tunic Set.",
+    desc: "Mulai dari koleksi utama seperti Abaya Aisyah, Kaftan Wulan, Gamis Nayla, dan Tunic Set Zahra.",
   },
   {
     title: "Cek Detail",
@@ -353,10 +353,14 @@ function WhatsAppLogo() {
 
 const colorSwatches: Record<string, string> = {
   Black: "#171717",
+  "Broken White": "#eee7dc",
   Blue: "#4f7296",
+  Burgundy: "#5a1630",
   Brown: "#7a5645",
+  "Dusty Rose": "#a85c53",
   Grey: "#9b9690",
   Maroon: "#7a2635",
+  Navy: "#14284f",
   Peach: "#e8b9a6",
   Pink: "#d58fa1",
   Purple: "#8a6a91",
@@ -364,6 +368,8 @@ const colorSwatches: Record<string, string> = {
   White: "#f8f3ec",
   Yellow: "#d7b84b",
 };
+
+const compactProductImageNames = new Set(["Kaftan Viscos", "Kaftan Donatelo"]);
 
 function ProductCollectionCard({
   category,
@@ -380,6 +386,7 @@ function ProductCollectionCard({
   const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(0);
   const selectedCollection = collections[selectedCollectionIndex] ?? collections[0];
   const [selectedVariant, setSelectedVariant] = useState(selectedCollection.hero);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const hasMultipleModels = collections.length > 1;
 
   function selectCollection(nextIndex: number) {
@@ -391,40 +398,53 @@ function ProductCollectionCard({
   }
 
   return (
-    <motion.article
-      id={getCategoryAnchor(category)}
-      variants={fadeUp}
-      transition={{ duration: 0.65, ease: "easeOut" }}
-      className="group flex h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
-    >
-      <div className="image-shine relative aspect-[4/5] overflow-hidden bg-[#f7eee9]">
-        {selectedCollection.variants.map((variant) => {
-          const isSelected = variant.color === selectedVariant.color;
+    <>
+      <motion.article
+        id={getCategoryAnchor(category)}
+        variants={fadeUp}
+        transition={{ duration: 0.65, ease: "easeOut" }}
+        className="group flex h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.25rem] bg-[#fffaf8] shadow-lg shadow-[#7d5f58]/5 transition duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#9e6f69]/15 target:ring-4 target:ring-[#c99691]/35 target:ring-offset-4 target:ring-offset-white target:animate-[soft-highlight_1.8s_ease-out]"
+      >
+        <div className="image-shine relative aspect-[4/5] overflow-hidden bg-[#f7eee9]">
+          {selectedCollection.variants.map((variant) => {
+            const isSelected = variant.color === selectedVariant.color;
+            const imageScaleClass = compactProductImageNames.has(
+              selectedCollection.name,
+            )
+              ? "p-7 scale-100 group-hover:scale-[1.03] sm:p-8"
+              : "group-hover:scale-105";
 
-          return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={`${selectedCollection.name}-${variant.color}`}
-              src={variant.image}
-              alt={`${selectedCollection.name} warna ${variant.color} koleksi ${getProductSeoCategory(selectedCollection.name)} KHZ Boutique`}
-              loading="eager"
-              decoding="async"
-              aria-hidden={!isSelected}
-              className={`pointer-events-none absolute inset-0 h-full w-full object-contain transition duration-300 group-hover:scale-105 ${
-                isSelected ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          );
-        })}
-        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#7a2f36] backdrop-blur-md">
-          Promo terbatas
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={`${selectedCollection.name}-${variant.color}`}
+                src={variant.image}
+                alt={`${selectedCollection.name} warna ${variant.color} koleksi ${getProductSeoCategory(selectedCollection.name)} KHZ Boutique`}
+                loading="eager"
+                decoding="async"
+                aria-hidden={!isSelected}
+                className={`pointer-events-none absolute inset-0 h-full w-full object-contain transition duration-300 ${imageScaleClass} ${
+                  isSelected ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            );
+          })}
+          <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#7a2f36] backdrop-blur-md">
+            Promo terbatas
+          </div>
+          <div className="absolute bottom-4 left-4 rounded-full bg-[#2f2521]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-md">
+            {selectedVariant.color}
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            className="absolute bottom-4 right-4 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#35523f] shadow-lg shadow-[#2f2521]/10 backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white"
+          >
+            Preview
+          </button>
         </div>
-        <div className="absolute bottom-4 left-4 rounded-full bg-[#2f2521]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-md">
-          {selectedVariant.color}
-        </div>
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <div className="grid min-h-[3rem] grid-cols-[2.75rem_1fr_2.75rem] items-center gap-2">
+        <div className="flex flex-1 flex-col p-5">
+        <div className="grid min-h-[8.75rem] grid-cols-[2.75rem_1fr_2.75rem] items-center gap-2">
           <button
             type="button"
             aria-label={`Lihat model ${category} sebelumnya`}
@@ -435,7 +455,7 @@ function ProductCollectionCard({
             ‹
           </button>
           <div className="min-w-0 text-center">
-            <h3 className="font-display text-3xl leading-tight text-[#2f2521]">
+            <h3 className="flex min-h-[6.25rem] items-center justify-center font-display text-3xl leading-tight text-[#2f2521]">
               {selectedCollection.name}
             </h3>
             <p className="mx-auto mt-2 w-fit rounded-full border border-[#ead8cf] bg-white/80 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#7a2f36]">
@@ -483,7 +503,7 @@ function ProductCollectionCard({
                     <span
                       aria-hidden="true"
                       className={`h-4 w-4 rounded-full border ${
-                        variant.color === "White"
+                        variant.color === "White" || variant.color === "Broken White"
                           ? "border-[#d7b5ae]"
                           : "border-white/70"
                       }`}
@@ -516,8 +536,118 @@ function ProductCollectionCard({
             Beli di Shopee
           </ExternalAnchor>
         </div>
-      </div>
-    </motion.article>
+        </div>
+      </motion.article>
+
+      {isPreviewOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Preview foto ${selectedCollection.name} warna ${selectedVariant.color}`}
+          className="fixed inset-0 z-50 overflow-y-auto bg-[#2f2521]/80 p-3 backdrop-blur-sm md:flex md:items-center md:justify-center md:p-4"
+          onClick={() => setIsPreviewOpen(false)}
+        >
+          <div
+            className="mx-auto grid min-h-full w-full max-w-6xl overflow-hidden rounded-2xl bg-[#fffaf8] shadow-2xl md:min-h-0 md:max-h-[92vh] md:grid-cols-[minmax(0,1fr)_20rem]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex min-h-[42vh] items-center justify-center bg-[#f7eee9] p-3 md:min-h-[78vh]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selectedVariant.image}
+                alt={`Preview ${selectedCollection.name} warna ${selectedVariant.color}`}
+                className="max-h-[45vh] w-full object-contain md:max-h-[84vh]"
+              />
+            </div>
+            <div className="flex flex-col gap-4 p-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a2f36]">
+                  {category}
+                </p>
+                <h3 className="mt-2 font-display text-3xl leading-tight text-[#2f2521]">
+                  {selectedCollection.name}
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full border border-[#ead8cf] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#35523f]">
+                  {selectedVariant.price}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#ead8cf] bg-white px-4 py-2 text-xs font-semibold text-[#6b514b]">
+                  <span
+                    aria-hidden="true"
+                    className="h-4 w-4 rounded-full border border-[#d7b5ae]"
+                    style={{
+                      backgroundColor:
+                        colorSwatches[selectedVariant.color] ?? "#d7b5ae",
+                    }}
+                  />
+                  {selectedVariant.color}
+                </span>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7a5a52]">
+                  Pilih warna
+                </p>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {selectedCollection.variants.map((variant) => {
+                    const isSelected = variant.color === selectedVariant.color;
+
+                    return (
+                      <button
+                        key={`preview-${selectedCollection.name}-${variant.color}`}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => setSelectedVariant(variant)}
+                        className={`flex min-h-11 items-center justify-center rounded-full border px-3 text-sm font-medium transition active:scale-[0.98] ${
+                          isSelected
+                            ? "border-[#35523f] bg-[#35523f] text-white shadow-md shadow-[#35523f]/15"
+                            : "border-[#ead8cf] bg-white text-[#695b54] hover:border-[#c99691]"
+                        }`}
+                      >
+                        <span className="grid min-w-[5.5rem] grid-cols-[1rem_1fr] items-center gap-2">
+                          <span
+                            aria-hidden="true"
+                            className={`h-4 w-4 rounded-full border ${
+                              variant.color === "White" ||
+                              variant.color === "Broken White"
+                                ? "border-[#d7b5ae]"
+                                : "border-white/70"
+                            }`}
+                            style={{
+                              backgroundColor:
+                                colorSwatches[variant.color] ?? "#d7b5ae",
+                            }}
+                          />
+                          <span className="text-left">{variant.color}</span>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="sticky bottom-0 -mx-5 -mb-5 mt-auto grid gap-3 border-t border-[#ead8cf] bg-[#fffaf8]/95 p-5 backdrop-blur-md md:static md:m-0 md:border-t-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+                <ExternalAnchor
+                  href={getProductWhatsAppHref({
+                    name: selectedCollection.name,
+                    color: selectedVariant.color,
+                  })}
+                  className="rounded-full bg-[#35523f] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-[#263d2e]"
+                >
+                  Tanya Stok
+                </ExternalAnchor>
+                <button
+                  type="button"
+                  onClick={() => setIsPreviewOpen(false)}
+                  className="rounded-full border border-[#d7b5ae] bg-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#6b514b] transition hover:bg-[#fffaf8]"
+                >
+                  Tutup Preview
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -766,7 +896,7 @@ export default function Home() {
             <div className="image-shine relative overflow-hidden rounded-[1.5rem] border border-white/70 shadow-2xl shadow-[#9e6f69]/10">
               <Image
                 src="/gallery/A-peach.jpg"
-                alt="Aisyah Abaya KHZ Boutique koleksi abaya Muslimah"
+                alt="Abaya Aisyah KHZ Boutique koleksi abaya Muslimah"
                 width={1600}
                 height={1600}
                 className="h-[560px] w-full object-cover object-[42%_center]"

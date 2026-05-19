@@ -13,7 +13,7 @@ export const productCollections: {
   variants: Omit<Product, "name" | "category">[];
 }[] = [
   {
-    name: "Aisyah Abaya",
+    name: "Abaya Aisyah",
     category: "Abaya",
     variants: [
       { color: "Black", image: "/gallery/A-black.jpg", price: "Rp 260.000" },
@@ -23,18 +23,18 @@ export const productCollections: {
     ],
   },
   {
-    name: "Wulan Kaftan",
-    category: "Kaftan Dress",
+    name: "Kaftan Wulan",
+    category: "Kaftan",
     variants: [
       { color: "Maroon", image: "/gallery/kaftan-wulan-maroon.jpg", price: "Rp 185.000" },
       { color: "Rose", image: "/gallery/kaftan-wulan-purple.jpg", price: "Rp 185.000" },
-      { color: "White", image: "/gallery/kaftan-wulan-white.jpg", price: "Rp 185.000" },
+      { color: "Broken White", image: "/gallery/kaftan-wulan-white.jpg", price: "Rp 185.000" },
       { color: "Blue", image: "/gallery/kaftan-wulan-blue.jpg", price: "Rp 185.000" },
     ],
   },
   {
     name: "Kaftan Viscos",
-    category: "Kaftan Dress",
+    category: "Kaftan",
     variants: [
       { color: "Black", image: "/gallery/kaftan-viscos-black.jpg", price: "Rp 140.000" },
       { color: "Peach", image: "/gallery/kaftan-viscos-peach.jpg", price: "Rp 140.000" },
@@ -43,7 +43,7 @@ export const productCollections: {
     ],
   },
   {
-    name: "Nayla Gamis",
+    name: "Gamis Nayla",
     category: "Gamis",
     variants: [
       { color: "Black", image: "/gallery/C-black.jpg", price: "Rp 190.000" },
@@ -54,13 +54,42 @@ export const productCollections: {
     ],
   },
   {
-    name: "Zahra Tunic Set",
+    name: "Tunic Set Zahra",
     category: "Tunic Set",
     variants: [
       { color: "Blue", image: "/gallery/D-blue.jpg", price: "Rp 240.000" },
       { color: "Brown", image: "/gallery/D-brown.jpg", price: "Rp 240.000" },
       { color: "Maroon", image: "/gallery/D-maroon.jpg", price: "Rp 240.000" },
       { color: "Purple", image: "/gallery/D-purple.jpg", price: "Rp 240.000" },
+    ],
+  },
+  {
+    name: "Abaya Kafta",
+    category: "Abaya",
+    variants: [
+      { color: "Black", image: "/gallery/abaya-kafta-hitam.jpg", price: "Rp 240.000" },
+      { color: "Grey", image: "/gallery/abaya-kafta-abu.jpg", price: "Rp 240.000" },
+      { color: "Dusty Rose", image: "/gallery/abaya-kafta-pink-gelap.jpg", price: "Rp 240.000" },
+    ],
+  },
+  {
+    name: "Kaftan Donatelo",
+    category: "Kaftan",
+    variants: [
+      { color: "Black", image: "/gallery/kaftan-donatelo-hitam.jpg", price: "Rp 165.000" },
+      { color: "Maroon", image: "/gallery/kaftan-donatelo-marun.jpg", price: "Rp 165.000" },
+      { color: "Navy", image: "/gallery/kaftan-donatelo-navy.jpg", price: "Rp 165.000" },
+    ],
+  },
+  {
+    name: "Gamis Katun Bordir",
+    category: "Gamis",
+    variants: [
+      { color: "Black", image: "/gallery/gamis-katun-bordir-hitam.jpg", price: "Rp 200.000" },
+      { color: "Pink", image: "/gallery/gamis-katun-bordir-pink.jpg", price: "Rp 200.000" },
+      { color: "Brown", image: "/gallery/gamis-katun-bordir-coklat.jpg", price: "Rp 200.000" },
+      { color: "Burgundy", image: "/gallery/gamis-katun-bordir-burgundy.jpg", price: "Rp 200.000" },
+      { color: "Blue", image: "/gallery/gamis-katun-bordir-biru.jpg", price: "Rp 200.000" },
     ],
   },
 ];
