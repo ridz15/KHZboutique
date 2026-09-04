@@ -9,8 +9,8 @@ const links = {
   shopee: "https://shopee.co.id/khzboutique",
   instagram: "https://www.instagram.com/khzboutique.id",
   facebook: "https://facebook.com/khzboutique.id/",
-  whatsappNumber: "62895352750251",
-  whatsappDisplay: "0895-3527-50251",
+  whatsappNumber: "6282112995760",
+  whatsappDisplay: "0821-1299-5760",
 };
 
 const campaign = {
